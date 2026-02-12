@@ -10,6 +10,7 @@ dotenv.config();
 
 // Initialize Express app
 const app = express();
+app.enable('trust proxy');
 
 // Middleware
 app.use(cors());
