@@ -19,11 +19,27 @@ passport.use(
                     return done(null, user);
                 }
 
+                // Check if user exists with same email
+                const email = profile.emails?.[0]?.value;
+                if (email) {
+                    user = await User.findOne({ email });
+                    if (user) {
+                        // Link google account to existing user
+                        user.googleId = profile.id;
+                        // Avoid overwriting avatar if already present
+                        if (!user.avatar) {
+                            user.avatar = profile.photos?.[0]?.value;
+                        }
+                        await user.save();
+                        return done(null, user);
+                    }
+                }
+
                 // If not, create new user
                 user = new User({
                     googleId: profile.id,
                     name: profile.displayName,
-                    email: profile.emails?.[0]?.value || '',
+                    email: email || '',
                     avatar: profile.photos?.[0]?.value || null,
                 });
 
