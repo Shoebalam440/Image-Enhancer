@@ -2,7 +2,7 @@
 
 A powerful, full-stack web application for enhancing images using AI-powered tools. Built with the MERN stack (MongoDB, Express.js, React, Node.js) and integrated with Cloudinary for image processing.
 
-![Project Preview](https://via.placeholder.com/800x400?text=Alam+Image+Enhancer+Preview)
+![Project Preview](assets/screenshot.png)
 
 ## 🚀 Live Demo
 
