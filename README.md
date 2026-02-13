@@ -6,8 +6,8 @@ A powerful, full-stack web application for enhancing images using AI-powered too
 
 ## 🚀 Live Demo
 
-- **Frontend (Netlify):** [https://your-netlify-app-url.netlify.app](https://your-netlify-app-url.netlify.app)
-- **Backend (Koyeb):** [https://your-koyeb-app-url.koyeb.app](https://your-koyeb-app-url.koyeb.app)
+- **Frontend (Netlify):** [https://image-enhancer1.netlify.app](https://image-enhancer1.netlify.app)
+- **Backend (Koyeb):** [https://chosen-halie-fiveminor-1606349a.koyeb.app](https://chosen-halie-fiveminor-1606349a.koyeb.app)
 
 ## ✨ Features
 
