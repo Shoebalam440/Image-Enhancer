@@ -12,19 +12,27 @@ dotenv.config();
 const app = express();
 app.enable('trust proxy');
 
-// Middleware
-const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+// Ensure uploads directory exists
+const fs = require('fs');
+const path = require('path');
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir);
+  console.log('Created uploads directory');
+}
+
+// Middleware (More permissive CORS for debugging)
 app.use(cors({
-  origin: [
-    frontendUrl,
-    frontendUrl.replace(/\/$/, ''), // Remove trailing slash if present
-    'http://localhost:5173',
-    'http://localhost:3000'
-  ],
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    return callback(null, true); // Allow ALL origins temporarily to debug
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
 }));
+app.options('*', cors()); // Enable pre-flight across-the-board
 app.use(express.json());
 app.use(passport.initialize());
 
@@ -57,6 +65,15 @@ if (MONGO_URI) {
 } else {
   console.log('MONGO_URI is not defined in .env. Skipping DB connection.');
 }
+
+// Error Handler
+app.use((err, req, res, next) => {
+  console.error('Unhandled Error:', err);
+  res.status(err.status || 500).json({
+    message: err.message || 'Internal Server Error',
+    error: process.env.NODE_ENV === 'development' ? err : {}
+  });
+});
 
 // Start Server
 console.log('Attempting to start server...');
