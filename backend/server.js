@@ -47,7 +47,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/images', imageRoutes);
 
 // Serve uploads folder statically (for local dev)
-const path = require('path');
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/', (req, res) => {
