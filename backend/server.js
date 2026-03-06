@@ -54,6 +54,10 @@ app.get('/', (req, res) => {
   res.send('Alam Image Enhancer API is running...');
 });
 
+app.get('/api/ping', (req, res) => {
+  res.status(200).send('pong');
+});
+
 // Database Connection
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
