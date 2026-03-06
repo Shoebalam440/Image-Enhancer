@@ -61,12 +61,18 @@ app.get('/api/ping', (req, res) => {
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
+console.log('Connecting to MongoDB...');
 if (MONGO_URI) {
-  mongoose.connect(MONGO_URI)
-    .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.log(err));
+  mongoose.connect(MONGO_URI, {
+    serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
+  })
+    .then(() => console.log('✅ MongoDB Connected Successfully'))
+    .catch(err => {
+      console.error('❌ MongoDB Connection Error:', err.message);
+      console.log('TIP: Check if your IP is whitelisted (0.0.0.0/0) in MongoDB Atlas Network Access.');
+    });
 } else {
-  console.log('MONGO_URI is not defined in .env. Skipping DB connection.');
+  console.log('⚠️ MONGO_URI is not defined in .env.');
 }
 
 // Error Handler
