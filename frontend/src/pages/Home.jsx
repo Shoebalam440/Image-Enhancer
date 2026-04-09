@@ -56,12 +56,16 @@ const Home = () => {
                             >
                                 Get Started Free <ArrowRight size={20} />
                             </Link>
-                            <Link
-                                to="/features"
-                                className="px-8 py-3 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:border-indigo-500 dark:hover:border-indigo-500 transition-colors"
+                            <a
+                                href="#features"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+                                }}
+                                className="px-8 py-3 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:border-indigo-500 dark:hover:border-indigo-500 transition-colors cursor-pointer"
                             >
                                 View Features
-                            </Link>
+                            </a>
                         </motion.div>
                     </motion.div>
 
