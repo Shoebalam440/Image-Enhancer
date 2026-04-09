@@ -49,6 +49,7 @@ const processImage = async (req, res) => {
         }
 
         // Build transformation based on type — ALL FREE TIER COMPATIBLE
+        // Made aggressive so results are CLEARLY visible
         let transformation = [];
 
         switch (type) {
@@ -57,29 +58,33 @@ const processImage = async (req, res) => {
                 transformation = [{ effect: 'background_removal' }];
                 break;
             case 'upscale':
-                // Free upscale: double the size with best quality
+                // flags:'relative' makes width:2.0 mean "2x original" instead of "2 pixels"
                 transformation = [
-                    { width: 2.0, crop: 'scale' },
-                    { quality: 'auto:best' },
-                    { effect: 'sharpen:100' }
+                    { width: 2.0, height: 2.0, crop: 'scale', flags: 'relative' },
+                    { effect: 'sharpen:80' },
+                    { quality: 'auto:best' }
                 ];
                 break;
             case 'restore':
-                // Free restore: combine multiple improvements
+                // Aggressive restoration for old/damaged photos
                 transformation = [
-                    { effect: 'improve' },
+                    { effect: 'improve:100' },
                     { effect: 'auto_contrast' },
                     { effect: 'auto_color' },
-                    { effect: 'sharpen:80' }
+                    { effect: 'auto_brightness' },
+                    { effect: 'sharpen:100' },
+                    { quality: 'auto:best' }
                 ];
                 break;
             case 'enhance':
             default:
-                // Free enhance: auto-improve + sharpen
+                // Aggressive enhance — clearly visible improvement
                 transformation = [
-                    { effect: 'improve' },
+                    { effect: 'improve:100' },
+                    { effect: 'auto_contrast' },
                     { effect: 'auto_brightness' },
-                    { effect: 'sharpen:60' },
+                    { effect: 'sharpen:100' },
+                    { effect: 'vibrance:40' },
                     { quality: 'auto:best' }
                 ];
                 break;
