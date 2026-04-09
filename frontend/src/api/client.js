@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { supabase } from '../lib/supabase';
 
 const client = axios.create({
     baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
@@ -7,12 +8,12 @@ const client = axios.create({
     },
 });
 
-// Add a request interceptor
+// Add Supabase token to every request automatically
 client.interceptors.request.use(
-    (config) => {
-        const user = JSON.parse(localStorage.getItem('user'));
-        if (user && user.token) {
-            config.headers['Authorization'] = `Bearer ${user.token}`;
+    async (config) => {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.access_token) {
+            config.headers['Authorization'] = `Bearer ${session.access_token}`;
         }
         return config;
     },

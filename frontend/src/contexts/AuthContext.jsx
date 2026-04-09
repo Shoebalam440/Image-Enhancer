@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import client from '../api/client';
+import { supabase } from '../lib/supabase';
 
 const AuthContext = createContext();
 
@@ -7,75 +7,97 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [session, setSession] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-        setLoading(false);
+        // Get initial session
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setSession(session);
+            setUser(session?.user ? {
+                id: session.user.id,
+                name: session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
+                email: session.user.email,
+                avatar: session.user.user_metadata?.avatar_url || null,
+                token: session.access_token
+            } : null);
+            setLoading(false);
+        });
+
+        // Listen for auth changes (login, logout, token refresh)
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session);
+            setUser(session?.user ? {
+                id: session.user.id,
+                name: session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
+                email: session.user.email,
+                avatar: session.user.user_metadata?.avatar_url || null,
+                token: session.access_token
+            } : null);
+            setLoading(false);
+        });
+
+        return () => subscription.unsubscribe();
     }, []);
 
     const login = async (email, password) => {
         try {
-            const { data } = await client.post('/auth/login', { email, password });
-            setUser(data);
-            localStorage.setItem('user', JSON.stringify(data));
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+            if (error) throw error;
             return { success: true };
         } catch (error) {
             return {
                 success: false,
-                message: error.response?.data?.message || 'Login failed'
+                message: error.message || 'Login failed'
             };
         }
     };
 
     const register = async (name, email, password) => {
         try {
-            const { data } = await client.post('/auth/register', { name, email, password });
-            setUser(data);
-            localStorage.setItem('user', JSON.stringify(data));
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: { full_name: name }
+                }
+            });
+            if (error) throw error;
             return { success: true };
         } catch (error) {
             return {
                 success: false,
-                message: error.response?.data?.message || 'Registration failed'
+                message: error.message || 'Registration failed'
             };
         }
     };
 
-    const googleLogin = async (token) => {
+    const googleLogin = async () => {
         try {
-            // Store token temporarily so client interceptor picks it up
-            localStorage.setItem('user', JSON.stringify({ token }));
-
-            // Get user data
-            const { data } = await client.get('/auth/me');
-
-            // Merge token with user data
-            const fullUser = { ...data, token };
-
-            setUser(fullUser);
-            localStorage.setItem('user', JSON.stringify(fullUser));
+            const { data, error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: `${window.location.origin}/dashboard`
+                }
+            });
+            if (error) throw error;
             return { success: true };
         } catch (error) {
-            console.error(error);
-            localStorage.removeItem('user'); // Clean up if failed
             return {
                 success: false,
-                message: error.response?.data?.message || 'Google login failed'
+                message: error.message || 'Google login failed'
             };
         }
     };
 
-    const logout = () => {
+    const logout = async () => {
+        await supabase.auth.signOut();
         setUser(null);
-        localStorage.removeItem('user');
+        setSession(null);
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, register, googleLogin, logout, loading }}>
+        <AuthContext.Provider value={{ user, session, login, register, googleLogin, logout, loading }}>
             {!loading && children}
         </AuthContext.Provider>
     );
