@@ -1,115 +1,81 @@
 import React from 'react';
-import { Check, X } from 'lucide-react';
+import { Check, Sparkles, Zap, Image, Scissors, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Pricing = () => {
-    const plans = [
-        {
-            name: "Free",
-            price: "$0",
-            desc: "For hobbyists and testing.",
-            features: [
-                "5 Enhancements / day",
-                "Standard Resolution",
-                "Basic Support",
-                "Public Uploads"
-            ],
-            notIncluded: [
-                "Batch Processing",
-                "API Access",
-                "High Speed Processing"
-            ],
-            cta: "Get Started",
-            popular: false
-        },
-        {
-            name: "Pro",
-            price: "$9.99",
-            period: "/mo",
-            desc: "For creators and professionals.",
-            features: [
-                "Unlimited Enhancements",
-                "Up to 4K Upscaling",
-                "Priority Support",
-                "Private Storage",
-                "Batch Processing (Coming Soon)",
-                "No Watermarks"
-            ],
-            notIncluded: [
-                "API Access"
-            ],
-            cta: "Go Pro",
-            popular: true
-        },
-        {
-            name: "Enterprise",
-            price: "Custom",
-            desc: "For large teams and platforms.",
-            features: [
-                "Everything in Pro",
-                "Dedicated API Access",
-                "Custom Models",
-                "SSO Integration",
-                "24/7 Priority Support"
-            ],
-            notIncluded: [],
-            cta: "Contact Us",
-            popular: false
-        }
+    const features = [
+        "Unlimited Image Enhancements",
+        "AI Image Upscaling (2x)",
+        "Background Removal",
+        "Old Photo Restoration",
+        "High Quality Downloads",
+        "Google Sign-In",
+        "Cloud Storage via Cloudinary",
+        "No Watermarks",
+        "No Daily Limits",
+        "No Hidden Fees — Ever"
     ];
 
     return (
         <div className="bg-slate-50 dark:bg-slate-900 min-h-screen py-24">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
+                    <div className="inline-flex items-center gap-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-4 py-2 rounded-full text-sm font-bold mb-6">
+                        <Sparkles size={16} />
+                        100% Free Forever
+                    </div>
                     <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-6">
-                        Simple, Transparent Pricing
+                        Everything is Free
                     </h1>
                     <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                        Choose the perfect plan for your needs. No hidden fees.
+                        No subscriptions. No credit cards. No limits. Just powerful AI image tools, completely free.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {plans.map((plan, idx) => (
-                        <div key={idx} className={`relative p-8 rounded-2xl bg-white dark:bg-slate-800 border ${plan.popular ? 'border-indigo-500 shadow-xl shadow-indigo-500/10' : 'border-slate-200 dark:border-slate-700 shadow-sm'} flex flex-col`}>
-                            {plan.popular && (
-                                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-indigo-500 text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wide">
-                                    Most Popular
+                {/* Single Free Plan Card */}
+                <div className="relative p-10 rounded-3xl bg-white dark:bg-slate-800 border-2 border-emerald-500 shadow-2xl shadow-emerald-500/10 max-w-2xl mx-auto">
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wide shadow-lg">
+                        ✨ Free Forever
+                    </div>
+
+                    <div className="text-center mb-8">
+                        <span className="text-6xl font-extrabold text-slate-900 dark:text-white">$0</span>
+                        <p className="text-slate-500 dark:text-slate-400 mt-2">No credit card required</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+                        {features.map((feature, idx) => (
+                            <div key={idx} className="flex items-center gap-3 text-slate-700 dark:text-slate-300">
+                                <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0">
+                                    <Check className="text-emerald-500" size={14} />
                                 </div>
-                            )}
-                            <div className="mb-6">
-                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{plan.name}</h3>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm">{plan.desc}</p>
+                                <span className="text-sm font-medium">{feature}</span>
                             </div>
-                            <div className="mb-6">
-                                <span className="text-4xl font-extrabold text-slate-900 dark:text-white">{plan.price}</span>
-                                {plan.period && <span className="text-slate-500 dark:text-slate-400">{plan.period}</span>}
+                        ))}
+                    </div>
+
+                    <Link
+                        to="/signup"
+                        className="w-full py-4 rounded-xl font-bold text-center bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white shadow-lg shadow-emerald-500/25 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-lg"
+                    >
+                        Get Started Free <ArrowRight size={20} />
+                    </Link>
+                </div>
+
+                {/* Tools Preview */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16">
+                    {[
+                        { icon: <Zap size={24} />, name: 'AI Enhance', color: 'from-indigo-500 to-purple-500' },
+                        { icon: <Image size={24} />, name: 'Upscale 2x', color: 'from-emerald-500 to-teal-500' },
+                        { icon: <Scissors size={24} />, name: 'Remove BG', color: 'from-purple-500 to-pink-500' },
+                        { icon: <Sparkles size={24} />, name: 'Restore', color: 'from-orange-500 to-red-500' },
+                    ].map((tool, idx) => (
+                        <div key={idx} className="p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-center shadow-sm">
+                            <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${tool.color} text-white flex items-center justify-center mx-auto mb-3 shadow-lg`}>
+                                {tool.icon}
                             </div>
-
-                            <ul className="space-y-4 mb-8 flex-grow">
-                                {plan.features.map((feature, fIdx) => (
-                                    <li key={fIdx} className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
-                                        <Check className="text-emerald-500 flex-shrink-0" size={20} />
-                                        <span className="text-sm">{feature}</span>
-                                    </li>
-                                ))}
-                                {plan.notIncluded.map((feature, fIdx) => (
-                                    <li key={fIdx} className="flex items-start gap-3 text-slate-400 dark:text-slate-500">
-                                        <X className="text-slate-300 dark:text-slate-600 flex-shrink-0" size={20} />
-                                        <span className="text-sm line-through">{feature}</span>
-                                    </li>
-                                ))}
-                            </ul>
-
-                            <Link
-                                to="/signup"
-                                className={`w-full py-3 rounded-lg font-bold text-center transition-all ${plan.popular
-                                    ? 'bg-indigo-500 hover:bg-indigo-600 text-white shadow-lg shadow-indigo-500/25'
-                                    : 'bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600'}`}
-                            >
-                                {plan.cta}
-                            </Link>
+                            <p className="font-bold text-sm text-slate-900 dark:text-white">{tool.name}</p>
+                            <p className="text-xs text-emerald-500 font-medium mt-1">FREE</p>
                         </div>
                     ))}
                 </div>
