@@ -17,7 +17,11 @@ const uploadImage = async (req, res) => {
     }
 
     try {
-        const result = await cloudinary.uploader.upload(req.file.path, {
+        // Convert buffer to base64 data URI for Cloudinary upload
+        const b64 = Buffer.from(req.file.buffer).toString('base64');
+        const dataURI = `data:${req.file.mimetype};base64,${b64}`;
+
+        const result = await cloudinary.uploader.upload(dataURI, {
             folder: 'alam-image-enhancer',
         });
 
