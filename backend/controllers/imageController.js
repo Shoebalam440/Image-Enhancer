@@ -85,17 +85,25 @@ const processImage = async (req, res) => {
                 break;
         }
 
-        // Extract public_id from Cloudinary URL or re-upload
+        // Generate enhanced URL using Cloudinary SDK
         let enhancedUrl;
 
         if (imageUrl.includes('cloudinary.com')) {
-            // Build transformed URL directly from existing Cloudinary image
-            const parts = imageUrl.split('/upload/');
-            if (parts.length === 2) {
-                const transformStr = transformation
-                    .map(t => Object.entries(t).map(([k, v]) => `${k}_${v}`).join(','))
-                    .join('/');
-                enhancedUrl = `${parts[0]}/upload/${transformStr}/${parts[1]}`;
+            // Extract public_id from Cloudinary URL
+            // URL format: https://res.cloudinary.com/CLOUD/image/upload/v123/folder/filename.ext
+            const uploadIndex = imageUrl.indexOf('/upload/');
+            if (uploadIndex !== -1) {
+                const afterUpload = imageUrl.substring(uploadIndex + 8); // after '/upload/'
+                // Remove version prefix (v1234567890/) if present
+                const withoutVersion = afterUpload.replace(/^v\d+\//, '');
+                // Remove file extension to get public_id
+                const publicId = withoutVersion.replace(/\.\w+$/, '');
+
+                // Use Cloudinary SDK to build the correct URL
+                enhancedUrl = cloudinary.url(publicId, {
+                    transformation: transformation,
+                    secure: true
+                });
             } else {
                 // Fallback: re-upload with transformation
                 const result = await cloudinary.uploader.upload(imageUrl, {
