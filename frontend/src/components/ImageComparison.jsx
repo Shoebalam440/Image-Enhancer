@@ -1,126 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronsLeftRight } from 'lucide-react';
+import { ChevronsLeftRight, Sparkles, Image as ImageIcon } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const ImageComparison = ({ beforeImage, afterImage, aspect = '16/9' }) => {
+const ImageComparison = ({ beforeImage, afterImage }) => {
     const [sliderPosition, setSliderPosition] = useState(50);
     const [isDragging, setIsDragging] = useState(false);
     const containerRef = useRef(null);
 
-    const handleMouseDown = () => setIsDragging(true);
-    const handleMouseUp = () => setIsDragging(false);
-
-    const handleMouseMove = (e) => {
-        if (!isDragging || !containerRef.current) return;
-
-        const rect = containerRef.current.getBoundingClientRect();
-        const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
-        const percentage = (x / rect.width) * 100;
-
-        setSliderPosition(percentage);
+    const handleStart = (e) => {
+        e.preventDefault();
+        setIsDragging(true);
     };
-
-    const handleTouchMove = (e) => {
-        if (!isDragging || !containerRef.current) return;
-
-        const rect = containerRef.current.getBoundingClientRect();
-        const x = Math.max(0, Math.min(e.touches[0].clientX - rect.left, rect.width));
-        const percentage = (x / rect.width) * 100;
-
-        setSliderPosition(percentage);
-    };
-
-    useEffect(() => {
-        document.addEventListener('mouseup', handleMouseUp);
-        return () => document.removeEventListener('mouseup', handleMouseUp);
-    }, []);
-
-    return (
-        <div
-            className="relative w-full rounded-xl overflow-hidden cursor-ew-resize select-none bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm"
-            ref={containerRef}
-            onMouseMove={handleMouseMove}
-            onTouchMove={handleTouchMove}
-            style={{ aspectRatio: aspect }}
-        >
-            {/* After Image (Background) */}
-            <img
-                src={afterImage}
-                alt="After"
-                className="absolute inset-0 w-full h-full object-contain pointer-events-none"
-            />
-            <div className="absolute top-4 right-4 bg-black/50 text-white px-2 py-1 rounded text-xs font-bold pointer-events-none z-10">After</div>
-
-            {/* Before Image (Clipped on top) */}
-            <div
-                className="absolute inset-0 overflow-hidden pointer-events-none"
-                style={{ width: `${sliderPosition}%` }}
-            >
-                <img
-                    src={beforeImage}
-                    alt="Before"
-                    className="absolute inset-0 w-full h-full object-contain custom-object-fit"
-                    style={{ width: '100vw', maxWidth: 'unset' }} // Trick to keep image scaled to container width even when clipped
-                />
-                {/* We need a better way to handle the clipped image scaling. 
-            Actually, commonly used technique is setting the image width to the container's full width 
-            but it's inside a container with limited width. 
-            Let's adjust.
-        */}
-            </div>
-            <div
-                className="absolute inset-0 overflow-hidden pointer-events-none border-r-2 border-white/50"
-                style={{ width: `${sliderPosition}%` }}
-            >
-                {/* Re-rendering image strictly for clipping purposes */}
-                {/* The previous approach with object-contain is tricky for clipping. 
-                 Standard approach: Use background images or strictly sized images. 
-                 Let's assume images are same size/ratio.
-             */}
-                <div className="w-full h-full relative">
-                    <img
-                        src={beforeImage}
-                        alt="Before"
-                        className="absolute top-0 left-0 h-full object-contain pointer-events-none"
-                        // The width needs to match the parent container width
-                        style={{ width: containerRef.current ? containerRef.current.clientWidth : '100%' }}
-                    />
-                </div>
-                <div className="absolute top-4 left-4 bg-black/50 text-white px-2 py-1 rounded text-xs font-bold pointer-events-none z-10">Before</div>
-            </div>
-
-            {/* Slider Handle */}
-            <div
-                className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize z-20 flex items-center justify-center -ml-0.5 shadow-lg"
-                style={{ left: `${sliderPosition}%` }}
-                onMouseDown={handleMouseDown}
-                onTouchStart={handleMouseDown}
-            >
-                <div className="w-8 h-8 rounded-full bg-white text-indigo-600 flex items-center justify-center shadow-md">
-                    <ChevronsLeftRight size={16} />
-                </div>
-            </div>
-        </div>
-    );
-};
-// Fixing the clipping issue: The "Before" image needs to be the full width of the container, 
-// but visible only up to X%.
-// The simplest CSS way is:
-// Parent: relative
-// After Img: absolute w-full h-full
-// Before Container: absolute top-0 left-0 h-full overflow-hidden, width={pct}%
-// Before Img: absolute top-0 left-0 w-[containerWidth] h-full max-w-none!
-// We can use a resize observer or just width: 100% of parent? No, 100% of parent is 100% of clipped container.
-// We need width to be inverse of clip? No.
-// Let's rely on standard practice: set Before Image width to the full container Width via ref or just 100vw/calc?
-// Better: Use `clip-path`? 
-// Let's try `clip-path` version which is cleaner.
-
-const ImageComparisonV2 = ({ beforeImage, afterImage }) => {
-    const [sliderPosition, setSliderPosition] = useState(50);
-    const [isDragging, setIsDragging] = useState(false);
-    const containerRef = useRef(null);
-
-    const handleStart = () => setIsDragging(true);
+    
     const handleEnd = () => setIsDragging(false);
 
     const handleMove = (clientX) => {
@@ -150,36 +41,94 @@ const ImageComparisonV2 = ({ beforeImage, afterImage }) => {
     return (
         <div
             ref={containerRef}
-            className="relative w-full h-[500px] overflow-hidden rounded-xl cursor-ew-resize select-none bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700"
+            className="relative w-full aspect-video overflow-hidden rounded-[2rem] cursor-ew-resize select-none bg-[#0a0a0a] border border-white/5 shadow-2xl group"
             onMouseDown={handleStart}
             onTouchStart={handleStart}
         >
-            <img src={afterImage} alt="After" className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none" draggable="false" />
-            <div className="absolute top-4 right-4 bg-black/50 text-white px-2 py-1 rounded text-xs font-bold pointer-events-none z-10">After</div>
-
-            <img
-                src={beforeImage}
-                alt="Before"
-                className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none"
-                draggable="false"
-                style={{
-                    clipPath: `polygon(0 0, ${sliderPosition}% 0, ${sliderPosition}% 100%, 0 100%)`,
-                    filter: 'blur(3px) grayscale(50%)' // Simulate low quality "Before" version
-                }}
+            {/* After Image (Full Background) */}
+            <img 
+                src={afterImage} 
+                alt="After" 
+                className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none" 
+                draggable="false" 
             />
-            <div className="absolute top-4 left-4 bg-black/50 text-white px-2 py-1 rounded text-xs font-bold pointer-events-none z-10">Before</div>
-
-            {/* Slider Line */}
-            <div
-                className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize z-20"
-                style={{ left: `${sliderPosition}%` }}
-            >
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center text-indigo-600">
-                    <ChevronsLeftRight size={16} />
+            
+            {/* After Badge */}
+            <div className="absolute bottom-6 right-6 z-10">
+                <div className="glass-dark border border-white/10 px-4 py-2 rounded-full flex items-center gap-2 shadow-xl backdrop-blur-xl">
+                    <Sparkles size={14} className="text-indigo-400" />
+                    <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">Enhanced Result</span>
                 </div>
             </div>
-        </div>
-    )
-}
 
-export default ImageComparisonV2;
+            {/* Before Image (Clipped / Top) */}
+            <div 
+                className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden"
+                style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
+            >
+                <img
+                    src={beforeImage}
+                    alt="Before"
+                    className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none brightness-90 saturate-[0.8]"
+                    draggable="false"
+                />
+                
+                {/* Before Badge */}
+                <div className="absolute bottom-6 left-6 z-10">
+                    <div className="bg-black/40 border border-white/10 px-4 py-2 rounded-full flex items-center gap-2 shadow-xl backdrop-blur-md">
+                        <ImageIcon size={14} className="text-slate-400" />
+                        <span className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">Original Image</span>
+                    </div>
+                </div>
+            </div>
+
+            {/* Slider Line & Handle */}
+            <div
+                className="absolute top-0 bottom-0 w-[2px] bg-gradient-to-b from-indigo-500/0 via-indigo-500 to-indigo-500/0 z-20 pointer-events-none"
+                style={{ left: `${sliderPosition}%` }}
+            >
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-4">
+                    {/* Glowing handle */}
+                    <div className="relative group-active:scale-90 transition-transform duration-300">
+                        <div className="absolute inset-0 bg-indigo-500 blur-md opacity-50 animate-pulse"></div>
+                        <div className="relative w-12 h-12 glass-dark border-2 border-white/20 rounded-2xl shadow-2xl flex items-center justify-center text-white backdrop-blur-2xl">
+                            <ChevronsLeftRight size={20} className="animate-bounce-x" />
+                        </div>
+                    </div>
+                    
+                    {/* Helper text overlaying the Handle */}
+                    <AnimatePresence>
+                        {isDragging && (
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.8 }}
+                                className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-lg glass-dark border border-white/10 text-[10px] font-black text-indigo-400 uppercase tracking-widest whitespace-nowrap shadow-2xl"
+                            >
+                                Compare Strength
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+            </div>
+
+            {/* Hint Overlay (visible initially) */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1 }}
+                className="absolute inset-0 flex items-center justify-center pointer-events-none group-hover:opacity-0 transition-opacity duration-500"
+            >
+                <div className="px-6 py-3 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-xs font-bold text-white uppercase tracking-widest flex items-center gap-3">
+                    <div className="flex gap-1">
+                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-ping"></div>
+                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+                    </div>
+                    Slide to compare
+                </div>
+            </motion.div>
+        </div>
+    );
+};
+
+export default ImageComparison;

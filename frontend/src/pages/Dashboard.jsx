@@ -1,12 +1,24 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import DashboardLayout from '../components/DashboardLayout';
 import ImageUploader from '../components/ImageUploader';
-import { Wand2, ImageIcon, Scissors, Sparkles, ArrowRight, Zap } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { 
+    Wand2, 
+    ImageIcon, 
+    Scissors, 
+    Sparkles, 
+    ArrowRight, 
+    Zap, 
+    Clock, 
+    TrendingUp, 
+    Plus
+} from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 const Dashboard = () => {
     const navigate = useNavigate();
+    const { user } = useAuth();
     const [selectedImage, setSelectedImage] = useState(null);
 
     const handleImageSelect = (file) => {
@@ -15,64 +27,165 @@ const Dashboard = () => {
 
     const handleQuickEnhance = () => {
         if (selectedImage) {
-            // Navigate to enhance editor with state
             navigate('/dashboard/enhance', { state: { file: selectedImage } });
         }
     };
+
     const tools = [
-        { name: 'AI Image Enhancer', icon: <Wand2 size={24} />, path: '/dashboard/enhance', color: 'bg-indigo-500', desc: 'Improve clarity and resolution' },
-        { name: 'Background Remover', icon: <Scissors size={24} />, path: '/dashboard/remove-bg', color: 'bg-purple-500', desc: 'Transparent background in 1 click' },
-        { name: 'Image Upscaler', icon: <ImageIcon size={24} />, path: '/dashboard/upscale', color: 'bg-emerald-500', desc: 'Upscale to 2x, 4x, 8x' },
-        { name: 'Old Photo Restoration', icon: <Sparkles size={24} />, path: '/dashboard/restore', color: 'bg-orange-500', desc: 'Restore faded & damaged photos' },
+        { 
+            name: 'AI Image Enhancer', 
+            icon: <Wand2 size={24} />, 
+            path: '/dashboard/enhance', 
+            gradient: 'from-indigo-500 to-purple-600', 
+            desc: 'Improve clarity, resolution & color balance instantly.' 
+        },
+        { 
+            name: 'Background Remover', 
+            icon: <Scissors size={24} />, 
+            path: '/dashboard/remove-bg', 
+            gradient: 'from-pink-500 to-rose-600', 
+            desc: 'Get transparent backgrounds with pixel-perfect AI.' 
+        },
+        { 
+            name: 'Image Upscaler', 
+            icon: <ImageIcon size={24} />, 
+            path: '/dashboard/upscale', 
+            gradient: 'from-emerald-500 to-teal-600', 
+            desc: 'Upscale to 4k and 8k without losing a single pixel.' 
+        },
+        { 
+            name: 'Photo Restoration', 
+            icon: <Sparkles size={24} />, 
+            path: '/dashboard/restore', 
+            gradient: 'from-amber-500 to-orange-600', 
+            desc: 'Fix scratched, faded and blurry historic photographs.' 
+        },
+    ];
+
+    const stats = [
+        { label: 'Credits Remaining', value: 'Unlimited', icon: <Zap size={16} className="text-amber-500" /> },
+        { label: 'Images Enhanced', value: '124', icon: <TrendingUp size={16} className="text-emerald-500" /> },
+        { label: 'Average Time', value: '1.2s', icon: <Clock size={16} className="text-indigo-500" /> },
     ];
 
     return (
         <DashboardLayout>
-            <div className="max-w-6xl mx-auto">
-                <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">Dashboard</h1>
-                <p className="text-slate-600 dark:text-slate-400 mb-8">Welcome back! What would you like to create today?</p>
-
-                {/* Quick Upload Area */}
-                <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 mb-10">
-                    <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-4">Quick Enhancer</h2>
-                    <ImageUploader onImageSelect={handleImageSelect} />
-
-                    {selectedImage && (
-                        <div className="mt-4 flex justify-end animate-fade-in">
-                            <button
-                                onClick={handleQuickEnhance}
-                                className="btn-primary py-2 px-6 rounded-lg flex items-center gap-2 shadow-lg shadow-indigo-500/30"
-                            >
-                                <Zap size={20} />
-                                Start Enhancing
-                            </button>
-                        </div>
-                    )}
+            <div className="max-w-7xl mx-auto space-y-10">
+                {/* Welcome Section */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                    <div>
+                        <motion.h1 
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            className="text-4xl font-black text-white tracking-tight mb-2"
+                        >
+                            Welcome back, <span className="text-gradient-primary">{user?.name?.split(' ')[0] || 'Creator'}</span>!
+                        </motion.h1>
+                        <p className="text-slate-400 font-medium tracking-wide">
+                            Your creative suite is ready. What's the plan for today?
+                        </p>
+                    </div>
+                    
+                    <div className="flex items-center gap-4">
+                        {stats.map((stat, i) => (
+                            <div key={i} className="glass-dark border border-white/5 rounded-2xl px-5 py-3 flex items-center gap-3">
+                                <div className="p-2 rounded-lg bg-white/5">
+                                    {stat.icon}
+                                </div>
+                                <div>
+                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none mb-1">{stat.label}</p>
+                                    <p className="text-sm font-bold text-white leading-none">{stat.value}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
-                {/* Tools Grid */}
-                <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-4">All Tools</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {tools.map((tool) => (
-                        <Link
-                            key={tool.name}
-                            to={tool.path}
-                            className="p-6 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-indigo-300 dark:hover:border-indigo-500 transition-all group"
-                        >
-                            <div className={`w-12 h-12 rounded-lg ${tool.color} text-white flex items-center justify-center mb-4 shadow-lg shadow-${tool.color.replace('bg-', '')}/30`}>
-                                {tool.icon}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Main Upload Box */}
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                        className="lg:col-span-2 relative"
+                    >
+                        <div className="absolute -inset-px rounded-[2.5rem] bg-gradient-to-r from-indigo-500/20 to-purple-500/20 blur-sm pointer-events-none"></div>
+                        <div className="relative glass-dark rounded-[2.5rem] border border-white/5 p-8 h-full">
+                            <div className="flex items-center justify-between mb-8">
+                                <h2 className="text-2xl font-bold text-white tracking-tight flex items-center gap-3">
+                                    <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                                        <Plus size={20} />
+                                    </div>
+                                    New Project
+                                </h2>
+                                {selectedImage && (
+                                    <button
+                                        onClick={() => setSelectedImage(null)}
+                                        className="text-xs font-bold text-slate-500 hover:text-white transition-colors"
+                                    >
+                                        Clear Selection
+                                    </button>
+                                )}
                             </div>
-                            <h3 className="font-bold text-slate-900 dark:text-white mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                                {tool.name}
-                            </h3>
-                            <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 h-10">
-                                {tool.desc}
-                            </p>
-                            <div className="flex items-center text-sm font-medium text-indigo-600 dark:text-indigo-400 group-hover:translate-x-1 transition-transform">
-                                Try now <ArrowRight size={16} className="ml-1" />
+
+                            <div className="space-y-6">
+                                <ImageUploader onImageSelect={handleImageSelect} />
+                                
+                                {selectedImage && (
+                                    <motion.div 
+                                        initial={{ opacity: 0, scale: 0.98 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        className="flex justify-end pt-4"
+                                    >
+                                        <button
+                                            onClick={handleQuickEnhance}
+                                            className="btn-premium flex items-center gap-3 px-8 py-4 text-lg font-bold group"
+                                        >
+                                            <Zap size={22} className="group-hover:fill-current transition-all" />
+                                            Boost Selected Image
+                                            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                                        </button>
+                                    </motion.div>
+                                )}
                             </div>
-                        </Link>
-                    ))}
+                        </div>
+                    </motion.div>
+
+                    {/* Quick Tools Side Panel */}
+                    <div className="space-y-6">
+                        <h2 className="text-xs font-black text-slate-500 uppercase tracking-[0.3em] px-2">Magic Tools</h2>
+                        <div className="grid grid-cols-1 gap-4">
+                            {tools.map((tool, idx) => (
+                                <motion.div
+                                    key={tool.name}
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.2 + (idx * 0.05) }}
+                                >
+                                    <Link
+                                        to={tool.path}
+                                        className="group block relative"
+                                    >
+                                        <div className="glass-dark border border-white/5 rounded-3xl p-6 transition-all group-hover:bg-white/5 group-hover:border-white/10 group-hover:translate-x-2">
+                                            <div className="flex gap-5">
+                                                <div className={`w-14 h-14 shrink-0 rounded-2xl bg-gradient-to-br ${tool.gradient} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-500`}>
+                                                    {tool.icon}
+                                                </div>
+                                                <div className="flex-1">
+                                                    <h3 className="font-bold text-white mb-1 group-hover:text-indigo-400 transition-colors">
+                                                        {tool.name}
+                                                    </h3>
+                                                    <p className="text-[11px] text-slate-500 font-medium leading-relaxed">
+                                                        {tool.desc}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
         </DashboardLayout>

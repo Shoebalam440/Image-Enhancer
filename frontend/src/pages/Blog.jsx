@@ -1,6 +1,7 @@
 import React from 'react';
-import { Calendar, User, ArrowRight } from 'lucide-react';
+import { Calendar, User, ArrowRight, BookOpen, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const Blog = () => {
     const posts = [
@@ -9,8 +10,9 @@ const Blog = () => {
             title: "Introducing AI-Powered Image Upscaling",
             excerpt: "Learn how our new generative AI technology can upscale images up to 4x without losing quality.",
             author: "Sarah Johnson",
-            date: "October 15, 2023",
+            date: "Oct 15, 2023",
             category: "Technology",
+            readTime: "5 min read",
             image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800"
         },
         {
@@ -18,8 +20,9 @@ const Blog = () => {
             title: "Top 5 Tips for Restoring Old Photographs",
             excerpt: "Discover the best practices for scanning and restoring your cherished family memories using digital tools.",
             author: "Michael Chen",
-            date: "September 28, 2023",
+            date: "Sep 28, 2023",
             category: "Tutorials",
+            readTime: "8 min read",
             image: "https://images.unsplash.com/photo-1531346878377-a513bc95f30f?auto=format&fit=crop&q=80&w=800"
         },
         {
@@ -27,56 +30,136 @@ const Blog = () => {
             title: "Understanding Color Correction in Photography",
             excerpt: "A deep dive into color theory and how automated color correction can save you hours of editing time.",
             author: "Emily Davis",
-            date: "September 10, 2023",
+            date: "Sep 10, 2023",
             category: "Photography",
+            readTime: "6 min read",
             image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=800"
         }
     ];
 
     return (
-        <div className="bg-slate-50 dark:bg-slate-900 min-h-screen py-24">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-16">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-6">
-                        Our Blog
-                    </h1>
-                    <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                        Latest news, tutorials, and updates from the AlamEnhancer team.
-                    </p>
+        <div className="bg-[#050505] min-h-screen relative overflow-hidden">
+            {/* Background Glows */}
+            <div className="fixed inset-0 pointer-events-none z-0">
+                <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-indigo-600/10 rounded-full blur-[120px]"></div>
+                <div className="absolute bottom-0 left-0 w-[30%] h-[30%] bg-purple-600/10 rounded-full blur-[100px]"></div>
+            </div>
+
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+                <div className="text-center mb-20">
+                    <motion.p
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-sm font-bold text-indigo-500 uppercase tracking-[0.3em] mb-4"
+                    >
+                        Inside AlamEnhancer
+                    </motion.p>
+                    <motion.h1 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.1 }}
+                        className="text-5xl md:text-7xl font-black text-white tracking-tight mb-6"
+                    >
+                        Our <span className="text-gradient-primary">Insights</span>
+                    </motion.h1>
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.2 }}
+                        className="text-lg text-slate-400 max-w-2xl mx-auto font-medium"
+                    >
+                        Stay updated with the latest in AI photography, digital restoration, 
+                        and product updates from our engineering team.
+                    </motion.p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {posts.map((post) => (
-                        <div key={post.id} className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-slate-200 dark:border-slate-700 flex flex-col">
-                            <div className="h-48 overflow-hidden">
-                                <img src={post.image} alt={post.title} className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500" />
-                            </div>
-                            <div className="p-6 flex-grow flex flex-col">
-                                <div className="flex items-center gap-2 mb-4">
-                                    <span className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-bold rounded-full uppercase tracking-wide">
+                    {posts.map((post, idx) => (
+                        <motion.div 
+                            key={post.id}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: idx * 0.1 }}
+                            className="card-premium group"
+                        >
+                            <div className="glow-indigo"></div>
+                            <div className="relative z-10 flex flex-col h-full">
+                                <div className="h-56 -mx-6 -mt-6 mb-6 overflow-hidden rounded-t-[1.5rem]">
+                                    <img src={post.image} alt={post.title} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" />
+                                    <div className="absolute top-4 left-4 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-[10px] font-black text-white uppercase tracking-widest">
                                         {post.category}
-                                    </span>
-                                </div>
-                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 line-clamp-2">
-                                    {post.title}
-                                </h3>
-                                <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 line-clamp-3">
-                                    {post.excerpt}
-                                </p>
-                                <div className="mt-auto flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-700">
-                                    <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
-                                        <User size={14} />
-                                        <span>{post.author}</span>
                                     </div>
-                                    <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
-                                        <Calendar size={14} />
-                                        <span>{post.date}</span>
+                                </div>
+                                
+                                <div className="flex flex-col flex-1">
+                                    <div className="flex items-center gap-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">
+                                        <div className="flex items-center gap-1">
+                                            <Calendar size={12} className="text-indigo-400" />
+                                            {post.date}
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                            <Clock size={12} className="text-purple-400" />
+                                            {post.readTime}
+                                        </div>
+                                    </div>
+
+                                    <h3 className="text-2xl font-black text-white mb-4 line-clamp-2 leading-tight tracking-tight group-hover:text-indigo-400 transition-colors">
+                                        {post.title}
+                                    </h3>
+                                    <p className="text-slate-400 font-medium text-sm mb-8 line-clamp-3 leading-relaxed">
+                                        {post.excerpt}
+                                    </p>
+                                    
+                                    <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+                                                <User size={14} />
+                                            </div>
+                                            <span className="text-xs font-bold text-slate-300">{post.author}</span>
+                                        </div>
+                                        <button className="text-white hover:text-indigo-400 transition-colors">
+                                            <ArrowRight size={20} />
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
+                
+                {/* Newsletter Section */}
+                <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    className="mt-32 max-w-4xl mx-auto glass-dark rounded-[2.5rem] border border-white/10 p-10 md:p-16 text-center relative overflow-hidden"
+                >
+                    <div className="absolute -top-24 -right-24 w-60 h-60 bg-indigo-600/20 rounded-full blur-[80px]"></div>
+                    <div className="relative z-10">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-black text-indigo-400 uppercase tracking-widest mb-6">
+                            <BookOpen size={14} /> Subscribe to AlamNews
+                        </div>
+                        <h2 className="text-3xl md:text-5xl font-black text-white tracking-tight mb-6">Stay Ahead of the Curve</h2>
+                        <p className="text-slate-400 font-medium max-w-xl mx-auto mb-10">
+                            Join 50,000+ creators and engineers receiving our monthly breakdown of 
+                            emerging AI photography trends.
+                        </p>
+                        
+                        <div className="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
+                            <input 
+                                className="flex-1 px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder:text-slate-600 outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all" 
+                                placeholder="Enter your email" 
+                            />
+                            <button className="btn-premium px-8 py-4 font-black uppercase tracking-widest text-xs">
+                                Subscribe
+                            </button>
+                        </div>
+                    </div>
+                </motion.div>
             </div>
         </div>
     );
