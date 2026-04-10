@@ -62,8 +62,8 @@ const ImageUploader = ({ onImageSelect }) => {
                         exit={{ opacity: 0, scale: 0.95 }}
                         className={`relative group rounded-[2rem] border-2 border-dashed transition-all duration-500 overflow-hidden ${
                             dragActive
-                                ? 'border-indigo-500 bg-indigo-500/5 shadow-[0_0_40px_rgba(79,70,229,0.1)]'
-                                : 'border-white/10 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/20'
+                                ? 'border-indigo-500 bg-indigo-50/80 shadow-[0_4px_30px_rgba(79,70,229,0.15)]'
+                                : 'border-slate-200 bg-white/50 hover:bg-white hover:border-slate-300 hover:shadow-sm'
                         }`}
                         onDragEnter={handleDrag}
                         onDragLeave={handleDrag}
@@ -79,8 +79,8 @@ const ImageUploader = ({ onImageSelect }) => {
                         
                         <div className="p-12 flex flex-col items-center text-center">
                             <div className="relative mb-6">
-                                <div className={`w-20 h-20 rounded-2xl flex items-center justify-center transition-all duration-500 ${
-                                    dragActive ? 'bg-indigo-500 text-white scale-110 rotate-12' : 'bg-white/5 text-indigo-400 group-hover:scale-110 group-hover:rotate-6'
+                                <div className={`w-20 h-20 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-sm ${
+                                    dragActive ? 'bg-indigo-500 text-white scale-110 rotate-12' : 'bg-white border border-slate-100 text-indigo-500 group-hover:scale-110 group-hover:rotate-6 group-hover:shadow-[0_8px_30px_rgba(79,70,229,0.15)]'
                                 }`}>
                                     <Upload size={32} />
                                 </div>
@@ -89,16 +89,16 @@ const ImageUploader = ({ onImageSelect }) => {
                                 </div>
                             </div>
 
-                            <h3 className="text-2xl font-black text-white tracking-tight mb-2">
+                            <h3 className="text-2xl font-black text-slate-900 tracking-tight mb-2">
                                 {dragActive ? 'Drop your image here' : 'Select an image'}
                             </h3>
-                            <p className="text-slate-400 font-medium max-w-[240px] leading-relaxed">
+                            <p className="text-slate-500 font-medium max-w-[240px] leading-relaxed">
                                 Drag & drop or click to browse files from your computer
                             </p>
 
-                            <div className="mt-8 flex items-center gap-6 px-6 py-2 rounded-full glass-dark border border-white/5 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                            <div className="mt-8 flex items-center gap-6 px-6 py-2 rounded-full bg-slate-50 border border-slate-100 text-[10px] font-black text-slate-500 uppercase tracking-widest">
                                 <span>JPG / PNG / WEBP</span>
-                                <div className="w-1 h-1 rounded-full bg-white/20"></div>
+                                <div className="w-1 h-1 rounded-full bg-slate-300"></div>
                                 <span>MAX 10MB</span>
                             </div>
                         </div>
@@ -109,20 +109,20 @@ const ImageUploader = ({ onImageSelect }) => {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, y: 10 }}
-                        className="relative rounded-[2rem] overflow-hidden group shadow-2xl border border-white/5 bg-[#0a0a0a]"
+                        className="relative rounded-[2rem] overflow-hidden group shadow-xl border border-slate-200 bg-white"
                     >
                         {/* Ambient glow behind image */}
-                        <div className="absolute inset-0 bg-indigo-500/5 blur-[40px] pointer-events-none"></div>
+                        <div className="absolute inset-0 bg-indigo-500/10 blur-[40px] pointer-events-none"></div>
                         
                         <div className="relative aspect-video flex items-center justify-center p-4">
-                            <img src={preview} alt="Preview" className="max-w-full max-h-full rounded-xl object-contain shadow-2xl z-10" />
+                            <img src={preview} alt="Preview" className="max-w-full max-h-full rounded-xl object-contain shadow-md z-10" />
                         </div>
 
                         {/* Top controls */}
                         <div className="absolute top-4 right-4 flex items-center gap-2 z-20">
                             <button
                                 onClick={clearSelection}
-                                className="w-10 h-10 rounded-full bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 backdrop-blur-md transition-all flex items-center justify-center"
+                                className="w-10 h-10 rounded-full bg-white text-red-500 hover:bg-red-500 hover:text-white border border-slate-200 shadow-md backdrop-blur-md transition-all flex items-center justify-center"
                                 title="Remove Image"
                             >
                                 <X size={20} />
@@ -130,18 +130,18 @@ const ImageUploader = ({ onImageSelect }) => {
                         </div>
 
                         {/* Bottom Info Bar */}
-                        <div className="absolute bottom-0 left-0 right-0 glass-dark border-t border-white/5 p-4 flex items-center justify-between z-20">
+                        <div className="absolute bottom-0 left-0 right-0 bg-slate-900/80 backdrop-blur-3xl border-t border-slate-800 p-4 flex items-center justify-between z-20">
                             <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-indigo-400">
+                                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-indigo-400">
                                     <FileImage size={24} />
                                 </div>
                                 <div className="overflow-hidden">
                                     <p className="text-sm font-bold text-white truncate max-w-[180px]">{selectedFile.name}</p>
-                                    <p className="text-[10px] font-bold text-indigo-400/60 uppercase tracking-widest">Ready to Enhance</p>
+                                    <p className="text-[10px] font-bold text-indigo-400/80 uppercase tracking-widest">Ready to Enhance</p>
                                 </div>
                             </div>
                             <div className="text-right">
-                                <p className="text-xs font-black text-slate-500 uppercase tracking-widest">Size</p>
+                                <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Size</p>
                                 <p className="text-sm font-bold text-white">{(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
                             </div>
                         </div>

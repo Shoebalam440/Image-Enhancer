@@ -8,7 +8,7 @@ const Features = () => {
             icon: <Wand2 size={28} />,
             title: "AI Enhancement",
             desc: "One-click fix for brightness, contrast, sharpness, and color balance. Powered by deep learning.",
-            gradient: "from-indigo-400 to-purple-600",
+            gradient: "from-indigo-500 to-purple-600",
         },
         {
             icon: <Image size={28} />,
@@ -32,7 +32,7 @@ const Features = () => {
             icon: <SlidersHorizontal size={28} />,
             title: "Real-time Preview",
             desc: "See every change as it happens with our instant before/after comparison slider.",
-            gradient: "from-emerald-400 to-teal-600",
+            gradient: "from-emerald-400 to-teal-500",
         },
         {
             icon: <Lock size={28} />,
@@ -43,11 +43,11 @@ const Features = () => {
     ];
 
     return (
-        <div className="bg-[#050505] min-h-screen relative overflow-hidden">
+        <div className="bg-[#FAFAFC] min-h-screen relative overflow-hidden">
             {/* Background glows */}
             <div className="fixed inset-0 pointer-events-none z-0">
-                <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-indigo-600/10 rounded-full blur-[120px]"></div>
-                <div className="absolute bottom-0 left-0 w-[30%] h-[30%] bg-purple-600/15 rounded-full blur-[100px]"></div>
+                <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-indigo-500/10 rounded-full blur-[120px]"></div>
+                <div className="absolute bottom-0 left-0 w-[30%] h-[30%] bg-purple-500/10 rounded-full blur-[100px]"></div>
             </div>
 
             <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -56,7 +56,7 @@ const Features = () => {
                     <motion.p
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-sm font-bold text-indigo-500 uppercase tracking-[0.3em] mb-4"
+                        className="text-sm font-black text-indigo-600 uppercase tracking-[0.3em] mb-4"
                     >
                         What We Offer
                     </motion.p>
@@ -64,7 +64,7 @@ const Features = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="text-5xl md:text-6xl font-black text-white tracking-tight mb-6"
+                        className="text-5xl md:text-6xl font-black text-slate-900 tracking-tight mb-6"
                     >
                         Powerful Features
                     </motion.h1>
@@ -72,7 +72,7 @@ const Features = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="text-lg text-slate-400 max-w-xl mx-auto font-medium"
+                        className="text-lg text-slate-500 max-w-xl mx-auto font-medium"
                     >
                         Everything you need to transform your images with professional-grade AI tools.
                     </motion.p>
@@ -90,11 +90,11 @@ const Features = () => {
                         >
                             <div className="glow-indigo"></div>
                             <div className="relative z-10">
-                                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-white mb-6 shadow-xl`}>
+                                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-white mb-6 shadow-xl shadow-${feature.gradient.split('-')[1]}-500/20 group-hover:scale-110 transition-transform duration-500`}>
                                     {feature.icon}
                                 </div>
-                                <h3 className="text-xl font-bold text-white mb-3 tracking-tight">{feature.title}</h3>
-                                <p className="text-slate-400 leading-relaxed font-medium text-sm">{feature.desc}</p>
+                                <h3 className="text-xl font-bold text-slate-800 mb-3 tracking-tight group-hover:text-indigo-600 transition-colors">{feature.title}</h3>
+                                <p className="text-slate-500 leading-relaxed font-medium text-sm">{feature.desc}</p>
                             </div>
                         </motion.div>
                     ))}

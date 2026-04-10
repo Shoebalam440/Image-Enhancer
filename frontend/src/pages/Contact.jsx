@@ -9,7 +9,7 @@ const Contact = () => {
             title: "Email Us",
             value: "shoebalam440@gmail.com",
             link: "mailto:shoebalam440@gmail.com",
-            gradient: "from-indigo-400 to-purple-600",
+            gradient: "from-indigo-500 to-purple-600",
             desc: "Response within 24 hours"
         },
         {
@@ -17,7 +17,7 @@ const Contact = () => {
             title: "Call Us",
             value: "+91 8857091578",
             link: "tel:+918857091578",
-            gradient: "from-emerald-400 to-teal-600",
+            gradient: "from-emerald-400 to-teal-500",
             desc: "Mon-Fri, 9am - 6pm"
         },
         {
@@ -31,11 +31,11 @@ const Contact = () => {
     ];
 
     return (
-        <div className="bg-[#050505] min-h-screen relative overflow-hidden">
+        <div className="bg-[#FAFAFC] min-h-screen relative overflow-hidden">
             {/* Background Glows */}
             <div className="fixed inset-0 pointer-events-none z-0">
-                <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-600/10 rounded-full blur-[120px]"></div>
-                <div className="absolute bottom-[10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/10 rounded-full blur-[100px]"></div>
+                <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-500/10 rounded-full blur-[120px]"></div>
+                <div className="absolute bottom-[10%] right-[-10%] w-[40%] h-[40%] bg-purple-500/10 rounded-full blur-[100px]"></div>
             </div>
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
@@ -44,7 +44,7 @@ const Contact = () => {
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-sm font-bold text-indigo-500 uppercase tracking-[0.3em] mb-4"
+                        className="text-sm font-black text-indigo-600 uppercase tracking-[0.3em] mb-4"
                     >
                         Contact Us
                     </motion.p>
@@ -53,7 +53,7 @@ const Contact = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-5xl md:text-7xl font-black text-white tracking-tight mb-6"
+                        className="text-5xl md:text-7xl font-black text-slate-900 tracking-tight mb-6"
                     >
                         Get in <span className="text-gradient-primary">Touch</span>
                     </motion.h1>
@@ -62,7 +62,7 @@ const Contact = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2 }}
-                        className="text-lg text-slate-400 max-w-2xl mx-auto font-medium"
+                        className="text-lg text-slate-500 max-w-2xl mx-auto font-medium"
                     >
                         Have questions about our AI models? Or just want to say hi? 
                         We're always looking for new creative collaborations.
@@ -81,16 +81,16 @@ const Contact = () => {
                         >
                             <div className="glow-indigo"></div>
                             <div className="relative z-10 flex flex-col items-center text-center">
-                                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${info.gradient} flex items-center justify-center text-white mb-6 shadow-2xl`}>
+                                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${info.gradient} flex items-center justify-center text-white mb-6 shadow-xl shadow-${info.gradient.split('-')[1]}-500/20 group-hover:scale-110 transition-transform duration-500`}>
                                     {info.icon}
                                 </div>
-                                <h3 className="text-2xl font-bold text-white mb-2 tracking-tight">{info.title}</h3>
+                                <h3 className="text-2xl font-black text-slate-900 mb-2 tracking-tight group-hover:text-indigo-600 transition-colors">{info.title}</h3>
                                 {info.link ? (
-                                    <a href={info.link} className="text-indigo-400 hover:text-indigo-300 font-bold transition-colors mb-2">
+                                    <a href={info.link} className="text-indigo-600 hover:text-indigo-700 font-bold transition-colors mb-2">
                                         {info.value}
                                     </a>
                                 ) : (
-                                    <p className="text-slate-200 font-bold mb-2">{info.value}</p>
+                                    <p className="text-slate-600 font-bold mb-2">{info.value}</p>
                                 )}
                                 <p className="text-slate-500 text-sm font-medium">{info.desc}</p>
                             </div>
@@ -103,30 +103,30 @@ const Contact = () => {
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    className="max-w-3xl mx-auto glass-dark rounded-[2.5rem] border border-white/10 overflow-hidden"
+                    className="max-w-3xl mx-auto bg-white rounded-[2.5rem] border border-slate-200 overflow-hidden shadow-[0_20px_60px_rgb(0,0,0,0.05)]"
                 >
                     <div className="p-10 md:p-14">
                         <div className="flex items-center gap-4 mb-8">
-                            <div className="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+                            <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 border border-indigo-100 shadow-sm">
                                 <MessageSquare size={24} />
                             </div>
-                            <h2 className="text-3xl font-bold text-white tracking-tight">Send a Message</h2>
+                            <h2 className="text-3xl font-black text-slate-900 tracking-tight">Send a Message</h2>
                         </div>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <div className="space-y-2">
-                                <label className="text-sm font-semibold text-slate-300 ml-1">Name</label>
-                                <input className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder:text-slate-600 outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all" placeholder="Your name" />
+                                <label className="text-sm font-bold text-slate-600 ml-1">Name</label>
+                                <input className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-300 transition-all font-medium" placeholder="Your name" />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-sm font-semibold text-slate-300 ml-1">Email</label>
-                                <input className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder:text-slate-600 outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all" placeholder="your@email.com" />
+                                <label className="text-sm font-bold text-slate-600 ml-1">Email</label>
+                                <input className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-300 transition-all font-medium" placeholder="your@email.com" />
                             </div>
                         </div>
                         
                         <div className="space-y-2 mb-8">
-                            <label className="text-sm font-semibold text-slate-300 ml-1">Message</label>
-                            <textarea rows={4} className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder:text-slate-600 outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all resize-none" placeholder="Tell us about your project..."></textarea>
+                            <label className="text-sm font-bold text-slate-600 ml-1">Message</label>
+                            <textarea rows={4} className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-300 transition-all resize-none font-medium" placeholder="Tell us about your project..."></textarea>
                         </div>
                         
                         <button className="btn-premium w-full py-4 text-lg font-bold flex items-center justify-center gap-2">

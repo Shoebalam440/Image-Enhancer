@@ -43,23 +43,23 @@ const DashboardLayout = ({ children }) => {
     ];
 
     return (
-        <div className="flex h-full min-h-[calc(100vh-6rem)] bg-[#050505] text-slate-200 overflow-hidden font-sans">
+        <div className="flex h-full min-h-[calc(100vh-6rem)] bg-[#FAFAFC] text-slate-900 overflow-hidden font-sans">
             {/* Ambient Background Glows */}
             <div className="fixed inset-0 pointer-events-none z-0">
-                <div className="absolute top-0 left-0 w-[30%] h-[30%] bg-indigo-600/5 rounded-full blur-[100px]"></div>
-                <div className="absolute bottom-0 right-0 w-[20%] h-[20%] bg-purple-600/5 rounded-full blur-[100px]"></div>
+                <div className="absolute top-0 left-0 w-[40%] h-[40%] bg-indigo-500/10 rounded-full blur-[120px]"></div>
+                <div className="absolute bottom-0 right-0 w-[30%] h-[30%] bg-purple-500/10 rounded-full blur-[100px]"></div>
             </div>
 
             {/* Sidebar */}
             <aside
-                className={`relative z-20 glass-dark border-r border-white/5 transition-all duration-500 ease-in-out ${
+                className={`relative z-20 glass-light border-r border-slate-200/60 transition-all duration-500 ease-in-out ${
                     isSidebarOpen ? 'w-72' : 'w-24'
-                } hidden md:flex flex-col shadow-2xl`}
+                } hidden md:flex flex-col shadow-[4px_0_24px_rgba(0,0,0,0.02)]`}
             >
                 {/* Sidebar Header */}
-                <div className="h-20 flex items-center px-6 border-b border-white/5">
+                <div className="h-20 flex items-center px-6 border-b border-slate-200/60">
                     <Link to="/" className="flex items-center gap-3 group">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg group-hover:rotate-12 transition-transform">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-[0_4px_12px_rgba(79,70,229,0.3)] group-hover:rotate-12 transition-transform">
                             <span className="text-white font-bold text-xl uppercase">A</span>
                         </div>
                         {isSidebarOpen && (
@@ -73,62 +73,62 @@ const DashboardLayout = ({ children }) => {
                 {/* Sidebar Body */}
                 <div className="flex-1 overflow-y-auto py-8 px-4 custom-scrollbar">
                     <div className="space-y-1">
-                        {isSidebarOpen && <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 ml-4">Main Navigation</p>}
+                        {isSidebarOpen && <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4 ml-4">Main Navigation</p>}
                         {menuItems.map((item) => (
                             <Link
                                 key={item.path}
                                 to={item.path}
-                                className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all group ${
+                                className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all group font-bold ${
                                     location.pathname === item.path
-                                        ? 'bg-indigo-500/10 text-white border border-indigo-500/20 shadow-[0_0_20px_rgba(79,70,229,0.1)]'
-                                        : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'
+                                        ? 'bg-indigo-50 text-indigo-700 border border-indigo-100 shadow-sm'
+                                        : 'text-slate-500 hover:text-indigo-600 hover:bg-slate-50 border border-transparent'
                                 }`}
                             >
-                                <span className={`flex-shrink-0 transition-transform duration-300 ${location.pathname === item.path ? 'scale-110 text-indigo-400' : 'group-hover:scale-110'}`}>
+                                <span className={`flex-shrink-0 transition-transform duration-300 ${location.pathname === item.path ? 'scale-110 text-indigo-600' : 'group-hover:scale-110'}`}>
                                     {item.icon}
                                 </span>
-                                {isSidebarOpen && <span className="font-semibold text-sm tracking-wide">{item.name}</span>}
+                                {isSidebarOpen && <span className="text-sm tracking-wide">{item.name}</span>}
                                 {location.pathname === item.path && isSidebarOpen && (
-                                    <div className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-500 shadow-[0_0_10px_rgba(79,70,229,0.8)]"></div>
+                                    <div className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-500 shadow-[0_0_10px_rgba(79,70,229,0.4)]"></div>
                                 )}
                             </Link>
                         ))}
                     </div>
 
                     <div className="mt-12 space-y-1">
-                        {isSidebarOpen && <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 ml-4">System</p>}
+                        {isSidebarOpen && <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4 ml-4">System</p>}
                         {bottomItems.map((item) => (
                             <Link
                                 key={item.path}
                                 to={item.path}
-                                className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all group ${
+                                className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all group font-bold ${
                                     location.pathname === item.path
-                                        ? 'bg-indigo-500/10 text-white border border-indigo-500/20'
-                                        : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'
+                                        ? 'bg-indigo-50 text-indigo-700 border border-indigo-100'
+                                        : 'text-slate-500 hover:text-indigo-600 hover:bg-slate-50 border border-transparent'
                                 }`}
                             >
                                 <span className="flex-shrink-0 group-hover:rotate-45 transition-transform">{item.icon}</span>
-                                {isSidebarOpen && <span className="font-semibold text-sm tracking-wide">{item.name}</span>}
+                                {isSidebarOpen && <span className="text-sm tracking-wide">{item.name}</span>}
                             </Link>
                         ))}
                     </div>
                 </div>
 
                 {/* Sidebar Footer */}
-                <div className="p-4 border-t border-white/5 bg-black/20">
+                <div className="p-4 border-t border-slate-200/60 bg-slate-50/50">
                     <button
                         onClick={handleLogout}
-                        className="flex items-center gap-4 w-full px-4 py-4 text-slate-400 hover:text-red-400 hover:bg-red-400/5 rounded-2xl transition-all group"
+                        className="flex items-center gap-4 w-full px-4 py-4 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-2xl transition-all group font-bold"
                     >
                         <LogOut size={20} className="group-hover:-translate-x-1 transition-transform" />
-                        {isSidebarOpen && <span className="font-semibold text-sm uppercase tracking-widest">Sign Out</span>}
+                        {isSidebarOpen && <span className="text-sm uppercase tracking-widest">Sign Out</span>}
                     </button>
                 </div>
 
                 {/* Toggle Button */}
                 <button
                     onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                    className="absolute -right-4 top-24 w-8 h-8 rounded-full glass-dark border border-white/10 flex items-center justify-center text-slate-400 hover:text-white shadow-xl transition-all z-30"
+                    className="absolute -right-4 top-24 w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-indigo-600 shadow-md transition-all z-30"
                 >
                     {isSidebarOpen ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
                 </button>

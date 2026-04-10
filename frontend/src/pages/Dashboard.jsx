@@ -43,21 +43,21 @@ const Dashboard = () => {
             name: 'Background Remover', 
             icon: <Scissors size={24} />, 
             path: '/dashboard/remove-bg', 
-            gradient: 'from-pink-500 to-rose-600', 
+            gradient: 'from-pink-500 to-rose-500', 
             desc: 'Get transparent backgrounds with pixel-perfect AI.' 
         },
         { 
             name: 'Image Upscaler', 
             icon: <ImageIcon size={24} />, 
             path: '/dashboard/upscale', 
-            gradient: 'from-emerald-500 to-teal-600', 
+            gradient: 'from-emerald-400 to-teal-500', 
             desc: 'Upscale to 4k and 8k without losing a single pixel.' 
         },
         { 
             name: 'Photo Restoration', 
             icon: <Sparkles size={24} />, 
             path: '/dashboard/restore', 
-            gradient: 'from-amber-500 to-orange-600', 
+            gradient: 'from-amber-400 to-orange-500', 
             desc: 'Fix scratched, faded and blurry historic photographs.' 
         },
     ];
@@ -65,7 +65,7 @@ const Dashboard = () => {
     const stats = [
         { label: 'Credits Remaining', value: 'Unlimited', icon: <Zap size={16} className="text-amber-500" /> },
         { label: 'Images Enhanced', value: '124', icon: <TrendingUp size={16} className="text-emerald-500" /> },
-        { label: 'Average Time', value: '1.2s', icon: <Clock size={16} className="text-indigo-500" /> },
+        { label: 'Average Time', value: '1.2s', icon: <Clock size={16} className="text-indigo-600" /> },
     ];
 
     return (
@@ -77,24 +77,24 @@ const Dashboard = () => {
                         <motion.h1 
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            className="text-4xl font-black text-white tracking-tight mb-2"
+                            className="text-4xl font-black text-slate-900 tracking-tight mb-2"
                         >
                             Welcome back, <span className="text-gradient-primary">{user?.name?.split(' ')[0] || 'Creator'}</span>!
                         </motion.h1>
-                        <p className="text-slate-400 font-medium tracking-wide">
+                        <p className="text-slate-500 font-medium tracking-wide">
                             Your creative suite is ready. What's the plan for today?
                         </p>
                     </div>
                     
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-wrap items-center gap-4">
                         {stats.map((stat, i) => (
-                            <div key={i} className="glass-dark border border-white/5 rounded-2xl px-5 py-3 flex items-center gap-3">
-                                <div className="p-2 rounded-lg bg-white/5">
+                            <div key={i} className="bg-white border border-slate-200 rounded-2xl px-5 py-3 flex items-center gap-3 shadow-sm">
+                                <div className="p-2 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center">
                                     {stat.icon}
                                 </div>
                                 <div>
                                     <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none mb-1">{stat.label}</p>
-                                    <p className="text-sm font-bold text-white leading-none">{stat.value}</p>
+                                    <p className="text-sm font-bold text-slate-900 leading-none">{stat.value}</p>
                                 </div>
                             </div>
                         ))}
@@ -109,11 +109,11 @@ const Dashboard = () => {
                         transition={{ delay: 0.1 }}
                         className="lg:col-span-2 relative"
                     >
-                        <div className="absolute -inset-px rounded-[2.5rem] bg-gradient-to-r from-indigo-500/20 to-purple-500/20 blur-sm pointer-events-none"></div>
-                        <div className="relative glass-dark rounded-[2.5rem] border border-white/5 p-8 h-full">
+                        <div className="absolute -inset-px rounded-[2.5rem] bg-gradient-to-r from-indigo-500/10 to-purple-500/10 blur-sm pointer-events-none"></div>
+                        <div className="relative bg-white rounded-[2.5rem] border border-slate-200 p-8 h-full shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
                             <div className="flex items-center justify-between mb-8">
-                                <h2 className="text-2xl font-bold text-white tracking-tight flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                                <h2 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
+                                    <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 border border-indigo-100">
                                         <Plus size={20} />
                                     </div>
                                     New Project
@@ -121,7 +121,7 @@ const Dashboard = () => {
                                 {selectedImage && (
                                     <button
                                         onClick={() => setSelectedImage(null)}
-                                        className="text-xs font-bold text-slate-500 hover:text-white transition-colors"
+                                        className="text-xs font-bold text-slate-500 hover:text-indigo-600 transition-colors"
                                     >
                                         Clear Selection
                                     </button>
@@ -166,13 +166,13 @@ const Dashboard = () => {
                                         to={tool.path}
                                         className="group block relative"
                                     >
-                                        <div className="glass-dark border border-white/5 rounded-3xl p-6 transition-all group-hover:bg-white/5 group-hover:border-white/10 group-hover:translate-x-2">
+                                        <div className="bg-white border border-slate-200 shadow-sm rounded-3xl p-6 transition-all group-hover:bg-slate-50 group-hover:border-slate-300 group-hover:translate-x-2 group-hover:shadow-md">
                                             <div className="flex gap-5">
                                                 <div className={`w-14 h-14 shrink-0 rounded-2xl bg-gradient-to-br ${tool.gradient} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-500`}>
                                                     {tool.icon}
                                                 </div>
                                                 <div className="flex-1">
-                                                    <h3 className="font-bold text-white mb-1 group-hover:text-indigo-400 transition-colors">
+                                                    <h3 className="font-bold text-slate-900 mb-1 group-hover:text-indigo-600 transition-colors">
                                                         {tool.name}
                                                     </h3>
                                                     <p className="text-[11px] text-slate-500 font-medium leading-relaxed">

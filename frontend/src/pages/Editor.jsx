@@ -60,7 +60,7 @@ const Editor = ({ mode = 'enhance' }) => {
             icon: <Maximize size={20} />, 
             loadingText: 'Recalculating pixel density...', 
             buttonText: 'Start Upscaling',
-            gradient: 'from-emerald-500 to-teal-600'
+            gradient: 'from-emerald-400 to-teal-500'
         },
         'remove-bg': { 
             title: 'BG Remover', 
@@ -68,7 +68,7 @@ const Editor = ({ mode = 'enhance' }) => {
             icon: <Scissors size={20} />, 
             loadingText: 'Detecting edge boundaries...', 
             buttonText: 'Isolate Subject',
-            gradient: 'from-pink-500 to-rose-600'
+            gradient: 'from-pink-500 to-rose-500'
         },
         restore: { 
             title: 'Magic Restoration', 
@@ -76,7 +76,7 @@ const Editor = ({ mode = 'enhance' }) => {
             icon: <Sparkles size={20} />, 
             loadingText: 'Healing historical data...', 
             buttonText: 'Heal Image',
-            gradient: 'from-amber-500 to-orange-600'
+            gradient: 'from-amber-400 to-orange-500'
         },
     };
 
@@ -171,9 +171,9 @@ const Editor = ({ mode = 'enhance' }) => {
         <DashboardLayout>
             <div className="max-w-7xl mx-auto flex flex-col gap-8">
                 {/* Editor Header */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-2 border-b border-white/5">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-2 border-b border-slate-200">
                     <div className="flex items-center gap-6">
-                        <Link to="/dashboard" className="p-3 rounded-2xl glass-dark border border-white/5 text-slate-400 hover:text-white transition-all shadow-xl">
+                        <Link to="/dashboard" className="p-3 rounded-2xl bg-white border border-slate-200 text-slate-500 hover:text-indigo-600 hover:bg-slate-50 transition-all shadow-sm">
                             <ArrowLeft size={20} />
                         </Link>
                         <div>
@@ -181,17 +181,17 @@ const Editor = ({ mode = 'enhance' }) => {
                                 <span className={`p-1.5 rounded-lg bg-gradient-to-br ${config.gradient} text-white shadow-lg`}>
                                     {config.icon}
                                 </span>
-                                <h1 className="text-2xl font-black text-white px-1 tracking-tight">{config.title}</h1>
+                                <h1 className="text-2xl font-black text-slate-900 px-1 tracking-tight">{config.title}</h1>
                             </div>
                             <p className="text-sm font-medium text-slate-500 ml-1 tracking-wide">{config.desc}</p>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-3">
-                        <button className="p-3 rounded-xl glass-dark border border-white/5 text-slate-400 hover:text-white transition-all" title="Help">
+                        <button className="p-3 rounded-xl bg-white border border-slate-200 text-slate-500 hover:text-indigo-600 hover:bg-slate-50 transition-all shadow-sm" title="Help">
                             <Info size={18} />
                         </button>
-                        <button className="p-3 rounded-xl glass-dark border border-white/5 text-slate-400 hover:text-white transition-all" title="History">
+                        <button className="p-3 rounded-xl bg-white border border-slate-200 text-slate-500 hover:text-indigo-600 hover:bg-slate-50 transition-all shadow-sm" title="History">
                             <History size={18} />
                         </button>
                     </div>
@@ -201,7 +201,7 @@ const Editor = ({ mode = 'enhance' }) => {
                     <motion.div 
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="p-4 bg-red-500/10 border border-red-500/20 text-red-500 rounded-2xl flex items-center gap-3 font-bold"
+                        className="p-4 bg-red-50 border border-red-200 text-red-600 rounded-2xl flex items-center gap-3 font-bold shadow-sm"
                     >
                         <AlertCircle size={20} />
                         {error}
@@ -232,34 +232,34 @@ const Editor = ({ mode = 'enhance' }) => {
                                     {processedUrl ? (
                                         <ImageComparison beforeImage={previewUrl} afterImage={processedUrl} />
                                     ) : (
-                                        <div className="relative w-full aspect-video rounded-[2.5rem] overflow-hidden glass-dark border border-white/5 bg-[#0a0a0a] flex items-center justify-center p-4 shadow-2xl">
-                                            <img src={previewUrl} alt="Original" className="max-w-full max-h-full object-contain rounded-xl opacity-60 grayscale-[0.3]" />
+                                        <div className="relative w-full aspect-video rounded-[2.5rem] overflow-hidden bg-slate-50 border border-slate-200 flex items-center justify-center p-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                            <img src={previewUrl} alt="Original" className="max-w-full max-h-full object-contain rounded-xl opacity-80" />
                                             
                                             {isProcessing ? (
-                                                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/40 backdrop-blur-xl">
+                                                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/80 backdrop-blur-xl">
                                                     <div className="relative mb-8">
-                                                        <div className="w-24 h-24 rounded-full border-4 border-white/5 flex items-center justify-center">
-                                                            <div className="w-16 h-16 rounded-full border-4 border-indigo-500 border-t-transparent animate-spin"></div>
+                                                        <div className="w-24 h-24 rounded-full border-4 border-slate-200 flex items-center justify-center">
+                                                            <div className="w-16 h-16 rounded-full border-4 border-indigo-600 border-t-transparent animate-spin"></div>
                                                         </div>
-                                                        <div className="absolute inset-0 blur-2xl bg-indigo-500/20 rounded-full animate-pulse"></div>
+                                                        <div className="absolute inset-0 blur-2xl bg-indigo-500/10 rounded-full animate-pulse"></div>
                                                     </div>
                                                     
                                                     <div className="text-center space-y-3">
-                                                        <h3 className="text-2xl font-black text-white tracking-widest uppercase">{Math.round(progress)}%</h3>
-                                                        <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px]">{config.loadingText}</p>
+                                                        <h3 className="text-2xl font-black text-slate-900 tracking-widest uppercase">{Math.round(progress)}%</h3>
+                                                        <p className="text-indigo-600 font-bold uppercase tracking-[0.3em] text-[10px]">{config.loadingText}</p>
                                                     </div>
 
                                                     {/* Progress Bar Container */}
-                                                    <div className="mt-10 w-64 h-1 bg-white/5 rounded-full overflow-hidden">
+                                                    <div className="mt-10 w-64 h-1.5 bg-slate-200 rounded-full overflow-hidden">
                                                         <motion.div 
-                                                            className="h-full bg-indigo-500 shadow-[0_0_15px_rgba(79,70,229,0.8)]"
+                                                            className="h-full bg-indigo-600 shadow-[0_0_15px_rgba(79,70,229,0.5)]"
                                                             animate={{ width: `${progress}%` }}
                                                         />
                                                     </div>
                                                 </div>
                                             ) : (
                                                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                                    <div className="px-6 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-lg text-white font-bold text-xs uppercase tracking-widest">
+                                                    <div className="px-6 py-2.5 rounded-full bg-white/90 border border-slate-200 backdrop-blur-md shadow-sm text-slate-800 font-bold text-xs uppercase tracking-widest">
                                                         Preview Layer Active
                                                     </div>
                                                 </div>
@@ -277,12 +277,12 @@ const Editor = ({ mode = 'enhance' }) => {
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.1 }}
-                            className="glass-dark border border-white/5 rounded-[2.5rem] p-8 space-y-8 shadow-2xl sticky top-24"
+                            className="bg-white border border-slate-200 rounded-[2.5rem] p-8 space-y-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] sticky top-24"
                         >
                             <div className="space-y-6">
                                 <div className="flex items-center gap-2 mb-4">
-                                    <Settings2 size={18} className="text-indigo-500" />
-                                    <h3 className="text-sm font-black text-white uppercase tracking-widest">Model Settings</h3>
+                                    <Settings2 size={18} className="text-indigo-600" />
+                                    <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest">Model Settings</h3>
                                 </div>
 
                                 {/* Mode Specific Settings Placeholder */}
@@ -292,7 +292,7 @@ const Editor = ({ mode = 'enhance' }) => {
                                             <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Output Resolution</label>
                                             <div className="grid grid-cols-3 gap-2">
                                                 {['2x', '4x', 'Pro'].map((val) => (
-                                                    <button key={val} className={`py-2.5 rounded-xl border text-[11px] font-black tracking-widest transition-all ${val === 'Pro' ? 'bg-indigo-500/10 border-indigo-500/30 text-indigo-400' : 'border-white/5 text-slate-500 hover:text-white hover:bg-white/5'}`}>
+                                                    <button key={val} className={`py-2.5 rounded-xl border text-[11px] font-black tracking-widest transition-all ${val === 'Pro' ? 'bg-indigo-50 border-indigo-200 text-indigo-600' : 'border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50'}`}>
                                                         {val}
                                                     </button>
                                                 ))}
@@ -300,12 +300,12 @@ const Editor = ({ mode = 'enhance' }) => {
                                         </div>
                                     )}
 
-                                    <div className="p-5 rounded-2xl bg-indigo-500/5 border border-indigo-500/10 space-y-2">
-                                        <div className="flex items-center gap-2 text-indigo-400">
+                                    <div className="p-5 rounded-2xl bg-indigo-50 border border-indigo-100 space-y-2">
+                                        <div className="flex items-center gap-2 text-indigo-600">
                                             <Zap size={14} />
                                             <span className="text-[10px] font-black uppercase tracking-widest">AI Profile</span>
                                         </div>
-                                        <p className="text-[11px] text-slate-400 font-medium leading-relaxed">
+                                        <p className="text-[11px] text-slate-600 font-medium leading-relaxed">
                                             Current model uses <strong>V5 Neural Engines</strong> for high-pass detailing and noise reduction at scale.
                                         </p>
                                     </div>
@@ -326,13 +326,13 @@ const Editor = ({ mode = 'enhance' }) => {
                                     <div className="space-y-3">
                                         <button
                                             onClick={handleDownload}
-                                            className="w-full bg-white text-black py-5 rounded-[1.25rem] font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-slate-200 transition-all shadow-xl"
+                                            className="w-full bg-slate-900 text-white py-5 rounded-[1.25rem] font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-slate-800 transition-all shadow-xl"
                                         >
                                             <Download size={20} /> Export Final HD
                                         </button>
                                         <button
                                             onClick={() => { setProcessedUrl(null); setFile(null); setPreviewUrl(null); }}
-                                            className="w-full py-4 rounded-[1.25rem] border border-white/10 text-slate-400 hover:text-white font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2"
+                                            className="w-full py-4 rounded-[1.25rem] border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50 font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2"
                                         >
                                             <RefreshCw size={14} /> New Project
                                         </button>
@@ -340,8 +340,8 @@ const Editor = ({ mode = 'enhance' }) => {
                                 )}
                                 
                                 <div className="flex items-center justify-center gap-4 pt-4">
-                                    <button className="text-slate-500 hover:text-white transition-colors"><Share2 size={18} /></button>
-                                    <button className="text-slate-500 hover:text-white transition-colors"><Save size={18} /></button>
+                                    <button className="text-slate-400 hover:text-indigo-600 transition-colors"><Share2 size={18} /></button>
+                                    <button className="text-slate-400 hover:text-indigo-600 transition-colors"><Save size={18} /></button>
                                 </div>
                             </div>
                         </motion.div>

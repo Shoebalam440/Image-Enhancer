@@ -20,7 +20,7 @@ function App() {
     return (
         <AuthProvider>
             <ThemeProvider>
-                <div className="flex flex-col min-h-screen bg-[#050505] text-slate-200 font-sans selection:bg-indigo-500/30">
+                <div className="flex flex-col min-h-screen bg-[#FAFAFC] text-slate-900 font-sans selection:bg-indigo-500/20">
                     <Navbar />
                     <main className="flex-grow pt-24">
                         <Routes>
