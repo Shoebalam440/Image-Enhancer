@@ -344,7 +344,7 @@ const Editor = ({ mode = 'enhance' }) => {
                                     <button className="text-slate-500 hover:text-white transition-colors"><Save size={18} /></button>
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
             </div>
