@@ -138,7 +138,7 @@ const Home = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: idx * 0.1 }}
-                                className="card-premium"
+                                className="card-premium group"
                             >
                                 <div className="glow-indigo"></div>
                                 <div className="relative z-10">

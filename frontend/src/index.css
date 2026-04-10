@@ -60,11 +60,15 @@
   
   .card-premium {
     @apply relative p-6 rounded-3xl bg-slate-900/50 border border-slate-800 backdrop-blur-sm
-    hover:border-slate-700 transition-all duration-300 group;
+    hover:border-slate-700 transition-all duration-300;
   }
 
   .glow-indigo {
-    @apply absolute -inset-px bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500;
+    @apply absolute -inset-px bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl opacity-0 blur-xl transition-opacity duration-500;
+  }
+
+  .group:hover .glow-indigo {
+    opacity: 0.2;
   }
 }
 
