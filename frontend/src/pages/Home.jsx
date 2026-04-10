@@ -21,40 +21,60 @@ const Home = () => {
     };
 
     return (
-        <div className="bg-slate-50 dark:bg-slate-900 min-h-screen">
+        <div className="bg-[#050505] min-h-screen selection:bg-indigo-500/30 overflow-hidden">
+            {/* Background Decorations */}
+            <div className="fixed inset-0 z-0 pointer-events-none">
+                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-600/20 rounded-full blur-[120px] animate-pulse"></div>
+                <div className="absolute bottom-[10%] right-[-10%] w-[30%] h-[30%] bg-purple-600/20 rounded-full blur-[100px]"></div>
+            </div>
+
             {/* Hero Section */}
-            <section className="relative overflow-hidden pt-20 pb-32">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <section className="relative pt-32 pb-24 md:pt-48 md:pb-32 z-10">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         className="text-center"
                         variants={containerVariants}
                         initial="hidden"
                         animate="visible"
                     >
+                        <motion.div 
+                            variants={itemVariants}
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-indigo-400 text-sm font-medium mb-8 backdrop-blur-sm"
+                        >
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                            </span>
+                            New: Real-time Upscaling 4.0
+                        </motion.div>
+
                         <motion.h1
-                            className="text-5xl md:text-7xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6"
+                            className="text-5xl md:text-8xl font-black text-white tracking-tight leading-[0.9] mb-8"
                             variants={itemVariants}
                         >
-                            Enhance Your Images with{' '}
-                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-                                AI Precision
+                            Transform Pixels into <br />
+                            <span className="text-gradient-primary">
+                                Digital Masterpieces
                             </span>
                         </motion.h1>
+                        
                         <motion.p
-                            className="mt-4 text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-10"
+                            className="mt-4 text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-medium"
                             variants={itemVariants}
                         >
-                            Restore details, fix colors, and upscale resolutions instantly. The all-in-one AI photo editor for professionals and creators.
+                            The most advanced AI image enhancement orchestrator. 
+                            Restore legacy media, upscale to 8K, and perfect details with cinematic precision.
                         </motion.p>
+                        
                         <motion.div
-                            className="flex justify-center gap-4"
+                            className="flex flex-col sm:flex-row justify-center gap-4"
                             variants={itemVariants}
                         >
                             <Link
                                 to="/signup"
-                                className="btn-primary flex items-center gap-2 text-lg px-8 py-3 rounded-full shadow-lg shadow-indigo-500/30 transform hover:scale-105 transition-all"
+                                className="btn-premium flex items-center justify-center gap-2 text-lg"
                             >
-                                Get Started Free <ArrowRight size={20} />
+                                Start Enhancing <ArrowRight size={20} />
                             </Link>
                             <a
                                 href="#features"
@@ -62,27 +82,36 @@ const Home = () => {
                                     e.preventDefault();
                                     document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
                                 }}
-                                className="px-8 py-3 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:border-indigo-500 dark:hover:border-indigo-500 transition-colors cursor-pointer"
+                                className="btn-glass flex items-center justify-center"
                             >
-                                View Features
+                                Explorer Features
                             </a>
                         </motion.div>
                     </motion.div>
 
-                    {/* Hero Image / Demo */}
+                    {/* Hero Image / Demo Showcase */}
                     <motion.div
-                        className="mt-20 relative mx-auto w-full max-w-5xl"
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.6, duration: 0.8 }}
+                        className="mt-24 relative mx-auto w-full max-w-5xl"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.4, duration: 1, ease: "easeOut" }}
                     >
-                        <div className="rounded-2xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-700 bg-slate-800/50 aspect-video flex items-center justify-center relative group">
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full blur-[100px] opacity-20 animate-pulse"></div>
-                            <div className="relative z-10 w-full h-full">
+                        <div className="relative p-2 rounded-[2rem] bg-gradient-to-b from-white/10 to-transparent border border-white/10 shadow-3xl">
+                            <div className="rounded-[1.75rem] overflow-hidden bg-slate-900 aspect-video flex items-center justify-center relative shadow-2xl">
                                 <ImageComparison
                                     beforeImage="/images/demo-after.jpg"
                                     afterImage="/images/demo-after.jpg"
                                 />
+                                {/* Overlay UI elements to make it feel techy */}
+                                <div className="absolute top-4 left-4 glass p-3 rounded-xl hidden md:block">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
+                                        <span className="text-[10px] font-bold text-white uppercase tracking-widest">Processing...</span>
+                                    </div>
+                                    <div className="w-24 h-1 bg-white/10 rounded-full overflow-hidden">
+                                        <div className="w-2/3 h-full bg-indigo-500"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </motion.div>
@@ -90,34 +119,34 @@ const Home = () => {
             </section>
 
             {/* Features Preview Section */}
-            <section className="py-24 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Powerful Features</h2>
-                        <p className="text-lg text-slate-600 dark:text-slate-400">Everything you need to perfect your photos.</p>
+            <section id="features" className="py-32 relative">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div className="text-center mb-20">
+                        <h2 className="text-sm font-bold text-indigo-500 uppercase tracking-[0.3em] mb-4">Core Technology</h2>
+                        <h3 className="text-4xl md:text-5xl font-bold text-white mb-6">Unrivaled Processing Power</h3>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {[
-                            { icon: <Zap size={32} />, title: "Instant Enhancement", desc: "One-click fix for brightness, contrast, and color balance.", gradient: "from-amber-500 to-orange-500", bgGlow: "bg-amber-500/10" },
-                            { icon: <Wand2 size={32} />, title: "Magic Restoration", desc: "Bring old, damaged, or blurry photos back to life.", gradient: "from-violet-500 to-purple-500", bgGlow: "bg-violet-500/10" },
-                            { icon: <Shield size={32} />, title: "Privacy First", desc: "Your images are processed securely and never shared.", gradient: "from-emerald-500 to-teal-500", bgGlow: "bg-emerald-500/10" }
+                            { icon: <Zap size={28} />, title: "Hyper-Speed", desc: "Proprietary neural engines process images in milliseconds, not minutes.", gradient: "from-amber-400 to-orange-500" },
+                            { icon: <Wand2 size={28} />, title: "Neural Restore", desc: "Advanced artifact removal that understands context and lighting.", gradient: "from-indigo-400 to-purple-600" },
+                            { icon: <Shield size={28} />, title: "Secure Vault", desc: "Military-grade encryption for your creative intellectual property.", gradient: "from-emerald-400 to-teal-600" }
                         ].map((feature, idx) => (
                             <motion.div
                                 key={idx}
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: idx * 0.15, duration: 0.5 }}
-                                className="group relative p-8 rounded-3xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 hover:border-transparent transition-all duration-300 shadow-sm hover:shadow-2xl overflow-hidden"
+                                transition={{ delay: idx * 0.1 }}
+                                className="card-premium"
                             >
-                                <div className={`absolute inset-0 ${feature.bgGlow} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl`}></div>
+                                <div className="glow-indigo"></div>
                                 <div className="relative z-10">
-                                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-white mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-white mb-8 shadow-2xl shadow-indigo-500/20`}>
                                         {feature.icon}
                                     </div>
-                                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">{feature.title}</h3>
-                                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{feature.desc}</p>
+                                    <h3 className="text-2xl font-bold text-white mb-4 tracking-tight">{feature.title}</h3>
+                                    <p className="text-slate-400 leading-relaxed font-medium">{feature.desc}</p>
                                 </div>
                             </motion.div>
                         ))}

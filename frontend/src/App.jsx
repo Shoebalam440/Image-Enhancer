@@ -20,9 +20,9 @@ function App() {
     return (
         <AuthProvider>
             <ThemeProvider>
-                <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white font-sans transition-colors duration-200">
+                <div className="flex flex-col min-h-screen bg-[#050505] text-slate-200 font-sans selection:bg-indigo-500/30">
                     <Navbar />
-                    <main className="flex-grow">
+                    <main className="flex-grow pt-24">
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/features" element={<Features />} />

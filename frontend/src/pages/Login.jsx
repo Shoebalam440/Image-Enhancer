@@ -1,152 +1,114 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, Lock, AlertCircle } from 'lucide-react';
+import { AlertCircle, ArrowRight } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const Login = () => {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-    });
     const [error, setError] = useState('');
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const { login, googleLogin, user } = useAuth();
-    const navigate = useNavigate();
-
-    // If already logged in, redirect to dashboard
-    React.useEffect(() => {
-        if (user) {
-            navigate('/dashboard');
-        }
-    }, [user, navigate]);
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-        setError('');
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        setError('');
-
-        const result = await login(formData.email, formData.password);
-
-        if (result.success) {
-            navigate('/dashboard');
-        } else {
-            setError(result.message);
-            setIsSubmitting(false);
-        }
-    };
+    const [isLoading, setIsLoading] = useState(false);
+    const { googleLogin } = useAuth();
 
     const handleGoogleLogin = async () => {
+        setIsLoading(true);
+        setError('');
         const result = await googleLogin();
         if (!result.success) {
             setError(result.message);
+            setIsLoading(false);
         }
-        // Supabase handles the redirect automatically
+        // Supabase handles the redirect automatically on success
     };
 
     return (
-        <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 bg-slate-50 dark:bg-slate-900">
+        <div className="min-h-screen flex items-center justify-center p-4 bg-[#050505] relative overflow-hidden">
+            {/* Background ambient glows */}
+            <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none"></div>
+            <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
             <motion.div
-                className="w-full max-w-md bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden border border-slate-100 dark:border-slate-700"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
+                className="w-full max-w-md relative z-10"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
             >
-                <div className="p-8">
-                    <div className="text-center mb-8">
-                        <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">Welcome Back</h2>
-                        <p className="text-slate-600 dark:text-slate-400">Sign in to continue enhancing your images</p>
-                    </div>
-
-                    {error && (
-                        <div className="mb-4 p-3 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg text-sm flex items-center gap-2">
-                            <AlertCircle size={16} />
-                            {error}
-                        </div>
-                    )}
-
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                Email Address
-                            </label>
-                            <div className="relative">
-                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
-                                    placeholder="name@example.com"
-                                    required
-                                />
-                            </div>
+                {/* Card */}
+                <div className="glass-dark rounded-[2.5rem] border border-white/10 shadow-2xl overflow-hidden">
+                    <div className="p-10">
+                        {/* Logo & Header */}
+                        <div className="text-center mb-10">
+                            <motion.div
+                                initial={{ scale: 0.8, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                transition={{ delay: 0.1, duration: 0.5 }}
+                                className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-indigo-500 to-purple-600 mb-6 shadow-2xl shadow-indigo-500/30"
+                            >
+                                <span className="text-white font-black text-3xl">A</span>
+                            </motion.div>
+                            <h1 className="text-4xl font-black text-white mb-3 tracking-tight">
+                                Welcome Back
+                            </h1>
+                            <p className="text-slate-400 font-medium">
+                                Sign in to access your workspace
+                            </p>
                         </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                Password
-                            </label>
-                            <div className="relative">
-                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                                <input
-                                    type="password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
-                                    placeholder="••••••••"
-                                    required
-                                />
-                            </div>
-                        </div>
+                        {/* Error state */}
+                        {error && (
+                            <motion.div
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-2xl text-sm flex items-center gap-3"
+                            >
+                                <AlertCircle size={18} className="shrink-0" />
+                                {error}
+                            </motion.div>
+                        )}
 
-                        <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
-                        >
-                            {isSubmitting ? 'Signing In...' : 'Sign In'}
-                        </button>
-                    </form>
-
-                    <div className="mt-8 relative">
-                        <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-slate-200 dark:border-slate-600"></div>
-                        </div>
-                        <div className="relative flex justify-center text-sm">
-                            <span className="px-2 bg-white dark:bg-slate-800 text-slate-500">Or continue with</span>
-                        </div>
-                    </div>
-
-                    <div className="mt-6">
-                        <button
+                        {/* Google Sign In Button */}
+                        <motion.button
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2, duration: 0.4 }}
                             onClick={handleGoogleLogin}
-                            className="w-full flex items-center justify-center gap-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 py-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors font-medium"
+                            disabled={isLoading}
+                            className="group w-full flex items-center justify-center gap-4 bg-white text-slate-800 py-4 px-6 rounded-2xl font-bold text-base hover:bg-slate-100 active:scale-[0.98] transition-all duration-200 shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
                         >
-                            <svg className="w-5 h-5" viewBox="0 0 24 24">
-                                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" />
-                                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                            </svg>
-                            Continue with Google
-                        </button>
+                            {isLoading ? (
+                                <div className="w-5 h-5 border-2 border-slate-400/30 border-t-slate-600 rounded-full animate-spin"></div>
+                            ) : (
+                                <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+                                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" />
+                                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                                </svg>
+                            )}
+                            <span>{isLoading ? 'Redirecting...' : 'Continue with Google'}</span>
+                            {!isLoading && (
+                                <ArrowRight size={18} className="ml-auto opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                            )}
+                        </motion.button>
+
+                        {/* Footnote */}
+                        <p className="mt-8 text-center text-xs text-slate-600 leading-relaxed">
+                            By continuing, you agree to our{' '}
+                            <span className="text-slate-400 hover:text-white cursor-pointer transition-colors">Terms of Service</span>
+                            {' '}and{' '}
+                            <span className="text-slate-400 hover:text-white cursor-pointer transition-colors">Privacy Policy</span>.
+                        </p>
                     </div>
 
-                    <p className="mt-8 text-center text-sm text-slate-600 dark:text-slate-400">
-                        Don't have an account?{' '}
-                        <Link to="/signup" className="font-bold text-indigo-600 hover:text-indigo-500">
-                            Sign up for free
-                        </Link>
-                    </p>
+                    {/* Bottom accent line */}
+                    <div className="h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent"></div>
+                    <div className="py-5 text-center">
+                        <p className="text-sm text-slate-500">
+                            Don't have an account?{' '}
+                            <Link to="/signup" className="font-bold text-indigo-400 hover:text-indigo-300 transition-colors">
+                                Get started for free
+                            </Link>
+                        </p>
+                    </div>
                 </div>
             </motion.div>
         </div>

@@ -23,13 +23,16 @@ const Navbar = () => {
     ];
 
     return (
-        <nav className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100 dark:border-gray-800">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl z-50 glass-dark rounded-2xl border border-white/10 shadow-2xl">
+            <div className="px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <div className="flex-shrink-0">
-                        <Link to="/" className="flex items-center gap-2">
-                            <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-600">
+                        <Link to="/" className="flex items-center gap-2 group">
+                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg group-hover:rotate-12 transition-transform">
+                                <span className="text-white font-bold text-lg">A</span>
+                            </div>
+                            <span className="text-xl font-bold text-gradient-primary tracking-tight">
                                 AlamEnhancer
                             </span>
                         </Link>
@@ -37,12 +40,12 @@ const Navbar = () => {
 
                     {/* Desktop Menu */}
                     <div className="hidden md:block">
-                        <div className="ml-10 flex items-baseline space-x-4">
+                        <div className="flex items-center space-x-1">
                             {navLinks.map((link) => (
                                 <Link
                                     key={link.name}
                                     to={link.path}
-                                    className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                                    className="text-slate-300 hover:text-white hover:bg-white/5 px-4 py-2 rounded-xl text-sm font-medium transition-all"
                                 >
                                     {link.name}
                                 </Link>
@@ -50,7 +53,7 @@ const Navbar = () => {
                             {user && (
                                 <Link
                                     to="/dashboard"
-                                    className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                                    className="text-slate-300 hover:text-white hover:bg-white/5 px-4 py-2 rounded-xl text-sm font-medium transition-all"
                                 >
                                     Dashboard
                                 </Link>
@@ -60,57 +63,59 @@ const Navbar = () => {
 
                     {/* Right Side Buttons */}
                     <div className="hidden md:flex items-center gap-4">
-
-
                         {user ? (
-                            <div className="flex items-center gap-4">
-                                <div className="flex items-center gap-2">
-                                    <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold overflow-hidden border border-indigo-200">
-                                        {user.avatar && !imgError ? (
-                                            <img
-                                                src={user.avatar}
-                                                alt={user.name}
-                                                className="w-full h-full object-cover"
-                                                onError={() => setImgError(true)}
-                                            />
-                                        ) : (
-                                            <span>{user.name?.charAt(0) || 'U'}</span>
-                                        )}
+                            <div className="flex items-center gap-4 pl-4 border-l border-white/10">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-500/20 p-[1px] shadow-inner">
+                                        <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center text-indigo-400 font-bold overflow-hidden border border-white/5">
+                                            {user.avatar && !imgError ? (
+                                                <img
+                                                    src={user.avatar}
+                                                    alt={user.name}
+                                                    className="w-full h-full object-cover"
+                                                    onError={() => setImgError(true)}
+                                                />
+                                            ) : (
+                                                <User size={18} />
+                                            )}
+                                        </div>
                                     </div>
-                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">{user.name}</span>
+                                    <div className="flex flex-col">
+                                        <span className="text-sm font-semibold text-slate-200 leading-none">{user.name}</span>
+                                        <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Pro Account</span>
+                                    </div>
                                 </div>
                                 <button
                                     onClick={handleLogout}
-                                    className="p-2 text-gray-500 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                                    className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-400/10 rounded-xl transition-all"
                                     title="Logout"
                                 >
-                                    <LogOut size={20} />
+                                    <LogOut size={18} />
                                 </button>
                             </div>
                         ) : (
-                            <>
+                            <div className="flex items-center gap-3">
                                 <Link
                                     to="/login"
-                                    className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-white px-4 py-2 text-sm font-medium"
+                                    className="text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-colors"
                                 >
                                     Login
                                 </Link>
                                 <Link
                                     to="/signup"
-                                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                                    className="btn-premium py-2"
                                 >
                                     Sign Up
                                 </Link>
-                            </>
+                            </div>
                         )}
                     </div>
 
                     {/* Mobile menu button */}
-                    <div className="md:hidden flex items-center gap-4">
-
+                    <div className="md:hidden flex items-center">
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-indigo-600 focus:outline-none"
+                            className="inline-flex items-center justify-center p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-all"
                         >
                             {isOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>
@@ -120,13 +125,13 @@ const Navbar = () => {
 
             {/* Mobile Menu */}
             {isOpen && (
-                <div className="md:hidden">
-                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-gray-800">
+                <div className="md:hidden border-t border-white/5 bg-slate-950/95 backdrop-blur-2xl rounded-b-2xl overflow-hidden">
+                    <div className="px-4 pt-2 pb-6 space-y-2">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.name}
                                 to={link.path}
-                                className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                                className="text-slate-300 hover:text-white block px-4 py-3 rounded-xl text-base font-medium hover:bg-white/5 transition-all"
                                 onClick={() => setIsOpen(false)}
                             >
                                 {link.name}
@@ -135,54 +140,50 @@ const Navbar = () => {
                         {user && (
                             <Link
                                 to="/dashboard"
-                                className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                                className="text-slate-300 hover:text-white block px-4 py-3 rounded-xl text-base font-medium hover:bg-white/5 transition-all"
                                 onClick={() => setIsOpen(false)}
                             >
                                 Dashboard
                             </Link>
                         )}
-                        <div className="pt-4 pb-2 border-t border-gray-200 dark:border-gray-700 mt-2">
+                        <div className="pt-4 border-t border-white/5">
                             {user ? (
-                                <div className="px-4">
-                                    <div className="flex items-center gap-3 mb-4">
-                                        <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold overflow-hidden border border-indigo-200">
+                                <div className="space-y-4">
+                                    <div className="flex items-center gap-3 px-4">
+                                        <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-indigo-400 border border-white/5">
                                             {user.avatar && !imgError ? (
-                                                <img
-                                                    src={user.avatar}
-                                                    alt={user.name}
-                                                    className="w-full h-full object-cover"
-                                                    onError={() => setImgError(true)}
-                                                />
-                                            ) : (
-                                                <span>{user.name?.charAt(0) || 'U'}</span>
-                                            )}
+                                                <img src={user.avatar} className="w-full h-full object-cover rounded-full" />
+                                            ) : <User />}
                                         </div>
-                                        <span className="text-sm font-medium text-gray-700 dark:text-gray-200">{user.name}</span>
+                                        <div>
+                                            <p className="font-medium text-white">{user.name}</p>
+                                            <p className="text-xs text-slate-500">{user.email}</p>
+                                        </div>
                                     </div>
                                     <button
                                         onClick={handleLogout}
-                                        className="block w-full text-center px-4 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md"
+                                        className="flex items-center justify-center gap-2 w-full px-4 py-3 text-red-400 hover:bg-red-400/10 rounded-xl transition-all"
                                     >
-                                        Logout
+                                        <LogOut size={18} /> Logout
                                     </button>
                                 </div>
                             ) : (
-                                <>
+                                <div className="grid grid-cols-2 gap-3 px-2">
                                     <Link
                                         to="/login"
-                                        className="block w-full text-center px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
+                                        className="flex items-center justify-center px-4 py-3 text-slate-300 hover:bg-white/5 rounded-xl transition-all"
                                         onClick={() => setIsOpen(false)}
                                     >
                                         Login
                                     </Link>
                                     <Link
                                         to="/signup"
-                                        className="block w-full text-center mt-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                                        className="btn-premium text-center"
                                         onClick={() => setIsOpen(false)}
                                     >
                                         Sign Up
                                     </Link>
-                                </>
+                                </div>
                             )}
                         </div>
                     </div>
