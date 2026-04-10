@@ -43,7 +43,7 @@ const DashboardLayout = ({ children }) => {
     ];
 
     return (
-        <div className="flex h-screen bg-[#050505] text-slate-200 overflow-hidden font-sans">
+        <div className="flex h-full min-h-[calc(100vh-6rem)] bg-[#050505] text-slate-200 overflow-hidden font-sans">
             {/* Ambient Background Glows */}
             <div className="fixed inset-0 pointer-events-none z-0">
                 <div className="absolute top-0 left-0 w-[30%] h-[30%] bg-indigo-600/5 rounded-full blur-[100px]"></div>
@@ -136,45 +136,6 @@ const DashboardLayout = ({ children }) => {
 
             {/* Main Content Area */}
             <div className="flex-1 flex flex-col overflow-hidden relative z-10">
-                {/* Header */}
-                <header className="h-20 glass-dark border-b border-white/5 flex items-center justify-between px-6 md:px-10">
-                    <div className="flex items-center gap-4">
-                        <button className="md:hidden p-2 text-slate-400 hover:text-white">
-                            <Menu size={24} />
-                        </button>
-                        <div className="hidden md:block">
-                            <h2 className="text-xl font-bold text-white tracking-tight">
-                                {menuItems.find(i => i.path === location.pathname)?.name || 'Editor'}
-                            </h2>
-                        </div>
-                    </div>
-
-                    <div className="flex items-center gap-6">
-                        <button className="relative p-2 text-slate-400 hover:text-white transition-colors">
-                            <Bell size={20} />
-                            <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-indigo-500 border-2 border-[#050505]"></span>
-                        </button>
-
-                        <div className="h-8 w-px bg-white/5 mx-2"></div>
-
-                        <div className="flex items-center gap-4 cursor-pointer group">
-                            <div className="text-right hidden sm:block">
-                                <p className="text-sm font-bold text-white leading-none mb-1 group-hover:text-gradient-primary transition-all">{user?.name || 'User'}</p>
-                                <p className="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Pro Member</p>
-                            </div>
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 p-[1px] shadow-lg">
-                                <div className="w-full h-full rounded-xl bg-[#0a0a0a] flex items-center justify-center text-indigo-400 font-bold overflow-hidden border border-white/5">
-                                    {user?.avatar && !imgError ? (
-                                        <img src={user.avatar} className="w-full h-full object-cover" onError={() => setImgError(true)} alt="" />
-                                    ) : (
-                                        <User size={20} />
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </header>
-
                 {/* Main Viewport */}
                 <main className="flex-1 overflow-y-auto p-6 md:p-10 custom-scrollbar">
                     {children}
