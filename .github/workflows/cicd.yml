@@ -5,7 +5,7 @@ on:
     inputs:
        enviroment:
         description: this is the environment value where workflows runs
-        default: "dev"
+        default: 'dev'
         required: true
         type: choice
         options:
@@ -34,6 +34,7 @@ jobs:
         run: echo "container testing"
    
   deploye:
+      if: inputs.environment == 'dev'
       runs-on: ubuntu-latest
       steps:
         - name: deploye app
